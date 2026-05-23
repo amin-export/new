@@ -11,16 +11,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
+        <style>
         :root {
-            --violet-tyrien: #4F0341;
-            --violet-light: #7a1a6b;
-            --violet-dark: #2d0125;
+            --primary-green: #0B4D2C;
+            --secondary-green: #1A936F;
+            --accent-gold: #D4AF37;
+            --light-mint: #F0FFF4;
             --white: #FFFFFF;
+            --dark-pine: #052E1A;
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.18);
             --glass-blur: blur(20px);
-            --shadow-luxury: 0 20px 60px rgba(79, 3, 65, 0.3);
+            --shadow-luxury: 0 20px 60px rgba(11, 77, 44, 0.3);
+            --shadow-green: 0 20px 60px rgba(26, 147, 111, 0.25);
             --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             --font-title: 'Playfair Display', serif;
@@ -32,16 +35,16 @@
 
         body {
             font-family: var(--font-body);
-            background: linear-gradient(135deg, #1a0516 0%, #4F0341 50%, #2d0125 100%);
+            background: linear-gradient(135deg, #052E1A 0%, #0B4D2C 50%, #1A936F 100%);
             color: var(--white);
             overflow-x: hidden;
             min-height: 100vh;
         }
 
         ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--violet-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--violet-light); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--white); }
+        ::-webkit-scrollbar-track { background: var(--dark-pine); }
+        ::-webkit-scrollbar-thumb { background: var(--secondary-green); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
 
         .glass {
             background: var(--glass-bg);
@@ -60,7 +63,7 @@
         }
 
         .navbar.scrolled {
-            background: rgba(79, 3, 65, 0.9);
+            background: rgba(11, 77, 44, 0.95);
             backdrop-filter: var(--glass-blur);
             box-shadow: var(--shadow-luxury);
         }
@@ -84,13 +87,13 @@
 
         .logo-icon {
             width: 50px; height: 50px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            background: linear-gradient(135deg, #D4AF37, #F4D03F);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
         .logo-text {
@@ -131,11 +134,12 @@
             position: absolute;
             bottom: 0; left: 0;
             width: 0; height: 2px;
-            background: var(--white);
+            background: var(--accent-gold);
             transition: var(--transition-smooth);
         }
 
         .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--accent-gold); }
 
         .nav-actions {
             display: flex;
@@ -167,7 +171,7 @@
 
         .lang-btn.active {
             background: var(--white);
-            color: var(--violet-tyrien);
+            color: var(--primary-green);
         }
 
         .cart-btn {
@@ -188,8 +192,9 @@
 
         .cart-btn:hover {
             transform: scale(1.1);
-            background: var(--white);
-            color: var(--violet-tyrien);
+            background: var(--accent-gold);
+            color: var(--dark-pine);
+            border-color: var(--accent-gold);
         }
 
         .cart-count {
@@ -204,7 +209,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid var(--violet-tyrien);
+            border: 2px solid var(--primary-green);
         }
 
         .mobile-menu-btn {
@@ -216,7 +221,7 @@
             cursor: pointer;
         }
 
-        /* HERO */
+        /* HERO - FULL SCREEN WITH YOUR IMAGE */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -230,17 +235,29 @@
         .hero-bg {
             position: absolute;
             top: 0; left: 0;
-            width: 100%; height: 120%;
-            background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80') center/cover no-repeat;
+            width: 100%; height: 100%;
             z-index: -2;
             will-change: transform;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
 
         .hero-overlay {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(79, 3, 65, 0.85) 0%, rgba(45, 1, 37, 0.75) 50%, rgba(79, 3, 65, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(5, 46, 26, 0.75) 0%, rgba(11, 77, 44, 0.65) 40%, rgba(26, 147, 111, 0.55) 100%);
             z-index: -1;
         }
 
@@ -263,6 +280,7 @@
             text-transform: uppercase;
             margin-bottom: 30px;
             animation: fadeInDown 1s ease;
+            color: var(--accent-gold);
         }
 
         .hero-title {
@@ -272,21 +290,23 @@
             line-height: 1.1;
             margin-bottom: 25px;
             animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
         }
 
         .hero-title span {
             font-style: italic;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .hero-subtitle {
             font-size: clamp(1rem, 2vw, 1.3rem);
-            opacity: 0.9;
+            opacity: 0.95;
             max-width: 700px;
             margin: 0 auto 40px;
             line-height: 1.7;
             font-weight: 300;
             animation: fadeInUp 1s ease 0.4s both;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .hero-cta {
@@ -315,7 +335,6 @@
             transition: var(--transition-bounce);
             position: relative;
             overflow: hidden;
-            border: none;
         }
 
         .btn-float::before {
@@ -329,20 +348,22 @@
 
         .btn-float:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(79, 3, 65, 0.4);
+            box-shadow: 0 20px 40px rgba(11, 77, 44, 0.4);
+            border-color: var(--accent-gold);
         }
 
         .btn-float:hover::before { left: 100%; }
 
         .btn-solid {
             background: var(--white);
-            color: var(--violet-tyrien);
+            color: var(--primary-green);
             border: 2px solid var(--white);
         }
 
         .btn-solid:hover {
             background: transparent;
             color: var(--white);
+            border-color: var(--accent-gold);
         }
 
         .hero-stats {
@@ -359,15 +380,17 @@
             font-family: var(--font-title);
             font-size: 2.5rem;
             font-weight: 700;
-            color: #FFD700;
+            color: var(--accent-gold);
             display: block;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
         }
 
         .stat-label {
             font-size: 0.85rem;
-            opacity: 0.8;
+            opacity: 0.9;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 500;
         }
 
         /* SECTIONS */
@@ -395,7 +418,7 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 20px;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .section-title {
@@ -407,7 +430,7 @@
 
         .section-subtitle {
             font-size: 1.1rem;
-            opacity: 0.8;
+            opacity: 0.85;
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.7;
@@ -415,7 +438,7 @@
 
         /* ABOUT */
         .about {
-            background: linear-gradient(180deg, transparent 0%, rgba(79, 3, 65, 0.3) 100%);
+            background: linear-gradient(180deg, transparent 0%, rgba(11, 77, 44, 0.3) 100%);
         }
 
         .about-grid {
@@ -425,47 +448,59 @@
             align-items: center;
         }
 
-        .about-image {
+        .about-video-container {
             position: relative;
             border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--shadow-luxury);
-        }
-
-        .about-image img {
             width: 100%;
             height: 500px;
-            object-fit: cover;
-            transition: var(--transition-smooth);
         }
 
-        .about-image:hover img { transform: scale(1.05); }
+        .about-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+        }
 
-        .about-image::before {
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(5, 46, 26, 0.2) 0%, rgba(11, 77, 44, 0.1) 100%);
+            pointer-events: none;
+            border-radius: 20px;
+        }
+
+        .about-video-container::before {
             content: '';
             position: absolute;
             top: -20px; left: -20px;
             width: 100px; height: 100px;
-            border-top: 3px solid #FFD700;
-            border-left: 3px solid #FFD700;
-            z-index: 1;
+            border-top: 3px solid var(--accent-gold);
+            border-left: 3px solid var(--accent-gold);
+            z-index: 2;
         }
 
-        .about-image::after {
+        .about-video-container::after {
             content: '';
             position: absolute;
             bottom: -20px; right: -20px;
             width: 100px; height: 100px;
-            border-bottom: 3px solid #FFD700;
-            border-right: 3px solid #FFD700;
-            z-index: 1;
+            border-bottom: 3px solid var(--accent-gold);
+            border-right: 3px solid var(--accent-gold);
+            z-index: 2;
         }
 
         .about-content h3 {
             font-family: var(--font-title);
             font-size: 2rem;
             margin-bottom: 20px;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .about-content p {
@@ -499,7 +534,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .feature-text h4 {
@@ -516,7 +551,7 @@
 
         /* TRUST METRICS */
         .trust-metrics {
-            background: linear-gradient(180deg, rgba(79, 3, 65, 0.3) 0%, rgba(45, 1, 37, 0.5) 100%);
+            background: linear-gradient(180deg, rgba(11, 77, 44, 0.3) 0%, rgba(5, 46, 26, 0.5) 100%);
             padding: 80px 30px;
         }
 
@@ -540,27 +575,27 @@
 
         .metric-card:hover {
             transform: translateY(-10px);
-            border-color: #FFD700;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
         }
 
         .metric-icon {
             width: 60px; height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.2));
+            background: linear-gradient(135deg, rgba(26,147,111,0.2), rgba(11,77,44,0.3));
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
             font-size: 1.5rem;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .metric-number {
             font-family: var(--font-title);
             font-size: 2.5rem;
             font-weight: 700;
-            color: #FFD700;
+            color: var(--accent-gold);
             margin-bottom: 10px;
         }
 
@@ -572,7 +607,7 @@
 
         /* PRODUCTS */
         .products {
-            background: linear-gradient(180deg, rgba(45, 1, 37, 0.5) 0%, rgba(79, 3, 65, 0.3) 100%);
+            background: linear-gradient(180deg, rgba(5, 46, 26, 0.5) 0%, rgba(11, 77, 44, 0.3) 100%);
         }
 
         .categories-grid {
@@ -589,7 +624,7 @@
             height: 320px;
             transition: var(--transition-bounce);
             border: 1px solid var(--glass-border);
-            background: var(--violet-dark);
+            background: var(--dark-pine);
         }
 
         .category-card:hover {
@@ -611,7 +646,7 @@
             bottom: 0; left: 0;
             width: 100%;
             padding: 40px 25px 25px;
-            background: linear-gradient(transparent, rgba(45, 1, 37, 0.95));
+            background: linear-gradient(transparent, rgba(5, 46, 26, 0.95));
         }
 
         .category-name {
@@ -641,14 +676,14 @@
         }
 
         .category-card:hover .category-arrow {
-            background: var(--white);
-            color: var(--violet-tyrien);
+            background: var(--accent-gold);
+            color: var(--dark-pine);
             transform: rotate(45deg);
         }
 
         /* CONTACT */
         .contact {
-            background: linear-gradient(180deg, rgba(45, 1, 37, 0.5) 0%, rgba(79, 3, 65, 0.3) 100%);
+            background: linear-gradient(180deg, rgba(5, 46, 26, 0.5) 0%, rgba(11, 77, 44, 0.3) 100%);
         }
 
         .contact-grid {
@@ -690,19 +725,19 @@
 
         .contact-item:hover {
             transform: translateX(10px);
-            border-color: rgba(255,255,255,0.4);
+            border-color: var(--accent-gold);
         }
 
         .contact-icon {
             width: 50px; height: 50px;
             min-width: 50px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            background: linear-gradient(135deg, #1A936F, #0B4D2C);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: var(--violet-dark);
+            color: var(--white);
         }
 
         .contact-text h4 {
@@ -721,7 +756,7 @@
 
         .contact-text a:hover {
             opacity: 1;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .map-container {
@@ -776,7 +811,7 @@
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #FFD700;
+            border-color: var(--accent-gold);
             background: rgba(255, 255, 255, 0.1);
         }
 
@@ -793,10 +828,10 @@
         .form-submit {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            background: linear-gradient(135deg, #1A936F, #0B4D2C);
             border: none;
             border-radius: 12px;
-            color: var(--violet-dark);
+            color: var(--white);
             font-family: var(--font-body);
             font-weight: 700;
             font-size: 1rem;
@@ -806,7 +841,7 @@
 
         .form-submit:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(26, 147, 111, 0.3);
         }
 
         /* FOOTER */
@@ -853,8 +888,8 @@
         }
 
         .social-links a:hover {
-            background: var(--white);
-            color: var(--violet-tyrien);
+            background: var(--accent-gold);
+            color: var(--dark-pine);
             transform: translateY(-3px);
         }
 
@@ -862,7 +897,7 @@
             font-family: var(--font-title);
             font-size: 1.2rem;
             margin-bottom: 20px;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .footer-column ul { list-style: none; }
@@ -879,7 +914,7 @@
 
         .footer-column a:hover {
             opacity: 1;
-            color: #FFD700;
+            color: var(--accent-gold);
             padding-left: 5px;
         }
 
@@ -928,7 +963,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(5, 46, 26, 0.9);
             backdrop-filter: blur(10px);
             z-index: 2000;
             display: none;
@@ -945,7 +980,7 @@
         }
 
         .modal-container {
-            background: linear-gradient(135deg, #2d0125 0%, #4F0341 100%);
+            background: linear-gradient(135deg, #052E1A 0%, #0B4D2C 100%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             max-width: 1000px;
@@ -1022,8 +1057,8 @@
         }
 
         .modal-back:hover {
-            background: var(--white);
-            color: var(--violet-tyrien);
+            background: var(--accent-gold);
+            color: var(--dark-pine);
         }
 
         .subcategories-grid {
@@ -1045,20 +1080,20 @@
 
         .subcategory-card:hover {
             transform: translateY(-8px);
-            border-color: #FFD700;
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.15);
+            border-color: var(--accent-gold);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
         }
 
         .subcategory-icon {
             width: 60px; height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.2));
+            background: linear-gradient(135deg, rgba(26,147,111,0.2), rgba(11,77,44,0.3));
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 15px;
             font-size: 1.5rem;
-            color: #FFD700;
+            color: var(--accent-gold);
         }
 
         .subcategory-name {
@@ -1086,27 +1121,34 @@
             overflow: hidden;
             cursor: pointer;
             transition: var(--transition-smooth);
+            text-align: center;
+            padding: 30px 20px;
         }
 
         .brand-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.4);
+            border-color: var(--accent-gold);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
         }
 
-        .brand-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .brand-info {
-            padding: 15px;
-            text-align: center;
+        .brand-icon-generic {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            object-fit: contain;
         }
 
         .brand-name {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .brand-count {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            color: var(--accent-gold);
         }
 
         .products-gallery {
@@ -1161,10 +1203,10 @@
         .btn-add-cart {
             flex: 1;
             padding: 10px;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            background: linear-gradient(135deg, #1A936F, #0B4D2C);
             border: none;
             border-radius: 10px;
-            color: var(--violet-dark);
+            color: var(--white);
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
@@ -1177,7 +1219,7 @@
 
         .btn-add-cart:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 5px 20px rgba(26, 147, 111, 0.3);
         }
 
         .cart-items {
@@ -1324,7 +1366,7 @@
                 position: absolute;
                 top: 100%; left: 0;
                 width: 100%;
-                background: rgba(79, 3, 65, 0.98);
+                background: rgba(11, 77, 44, 0.98);
                 backdrop-filter: blur(20px);
                 flex-direction: column;
                 padding: 20px;
@@ -1403,12 +1445,24 @@
 
     <!-- HERO SECTION -->
     <section class="hero" id="home">
-        <div class="hero-bg"></div>
+        <div class="hero-bg">
+            <video 
+                class="hero-video" 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                preload="auto"
+            >
+                <source src="./images/hero-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <div class="hero-badge" data-i18n="hero_badge">100% Algerian Manufactured</div>
             <h1 class="hero-title" data-i18n="hero_title">
-                Exporting <span>Algeria</span> to the World
+                Exporting <span>Algerian Products</span> to the World
             </h1>
             <p class="hero-subtitle" data-i18n="hero_subtitle">
                 From the strategic port of Oran, we bridge Africa and the Mediterranean with premium Algerian products. Quality, reliability, and excellence in every shipment.
@@ -1489,8 +1543,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-image">
-                    <img src="./images/about_oran.jpg" alt="Oran Algeria Port">
+                <div class="about-video-container">
+                    <video 
+                        class="about-video" 
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline 
+                        poster="./images/about_oran.jpg"
+                        preload="auto"
+                    >
+                        <source src="./images/about-video.mp4" type="video/mp4">
+                        <!-- Fallback for other formats - uncomment if needed -->
+                        <!-- <source src="./images/about-video.webm" type="video/webm"> -->
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay"></div>
                 </div>
             </div>
         </div>
@@ -2535,7 +2603,7 @@
                 company_slogan: "ALGERIA TO THE WORLD",
                 nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact",
                 hero_badge: "100% Algerian Manufactured",
-                hero_title: "Exporting <span>Algeria</span> to the World",
+                hero_title: "Exporting <span>Algerian Products</span> to the World",
                 hero_subtitle: "From the strategic port of Oran, we bridge Africa and the Mediterranean with premium Algerian products. Quality, reliability, and excellence in every shipment.",
                 hero_cta_products: "Our Products", hero_cta_contact: "Get in Touch",
                 stat_countries: "Countries", stat_clients: "Happy Clients", stat_quality: "Algerian Made",
@@ -2574,7 +2642,7 @@
                 company_slogan: "L'ALGÉRIE VERS LE MONDE",
                 nav_home: "Accueil", nav_products: "Produits", nav_about: "À Propos", nav_contact: "Contact",
                 hero_badge: "100% Fabriqué en Algérie",
-                hero_title: "Exporter l'<span>Algérie</span> vers le Monde",
+                hero_title: "Exporter des <span>Produits Algériens</span> vers le Monde",
                 hero_subtitle: "Depuis le port stratégique d'Oran, nous relions l'Afrique et la Méditerranée avec des produits algériens premium. Qualité, fiabilité et excellence dans chaque expédition.",
                 hero_cta_products: "Nos Produits", hero_cta_contact: "Nous Contacter",
                 stat_countries: "Pays", stat_clients: "Clients Satisfaits", stat_quality: "Made in Algeria",
@@ -2722,7 +2790,7 @@
                     const brandCount = sub.brands ? Object.keys(sub.brands).length : 0;
                     content += `
                         <div class="subcategory-card" onclick="openSubcategoryModal('${categoryId}', '${subId}')">
-                            ${sub.image ? `<img src="${sub.image}" alt="${getText(sub.name)}" style="width:100%;height:120px;object-fit:cover;border-radius:12px;margin-bottom:12px;">` : `<div class="subcategory-icon"><i class="${sub.icon || 'fas fa-box'}"></i></div>`}
+                            <img src="./images/brand-icon.png" alt="Brands" style="width:60px;height:60px;object-fit:contain;margin:0 auto 12px;border-radius:50%;">
                             <div class="subcategory-name">${getText(sub.name)}</div>
                             <div class="subcategory-count">${brandCount} ${currentLang === 'fr' ? 'marques' : 'brands'}</div>
                         </div>
@@ -2748,12 +2816,12 @@
             `;
 
             Object.entries(brands).forEach(([brandId, brand]) => {
+                const productCount = brand.products ? brand.products.length : 0;
                 content += `
                     <div class="brand-card" onclick="openBrandModal('${categoryId}', '${subcategoryId}', '${brandId}')">
-                        <img src="${brand.image}" alt="${brand.name}" class="brand-image" loading="lazy">
-                        <div class="brand-info">
-                            <div class="brand-name">${brand.name}</div>
-                        </div>
+                        <img src="./images/brand-icon.png" alt="Brand" class="brand-icon-generic" loading="lazy">
+                        <div class="brand-name">${brand.name}</div>
+                        <div class="brand-count">${productCount} ${currentLang === 'fr' ? 'produits' : 'products'}</div>
                     </div>
                 `;
             });
