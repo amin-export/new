@@ -1122,7 +1122,6 @@
             cursor: pointer;
             transition: var(--transition-smooth);
             text-align: center;
-            padding: 30px 20px;
         }
 
         .brand-card:hover {
@@ -1131,12 +1130,15 @@
             box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
         }
 
-        .brand-icon-generic {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            object-fit: contain;
+        .brand-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .brand-info {
+            padding: 20px;
         }
 
         .brand-name {
@@ -1153,8 +1155,33 @@
 
         .products-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .products-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            .product-image-wrapper {
+                height: 220px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .product-image-wrapper {
+                height: 180px;
+                padding: 10px;
+            }
+            .product-card {
+                border-radius: 14px;
+            }
         }
 
         .product-card {
@@ -1165,34 +1192,86 @@
             overflow: hidden;
             transition: var(--transition-smooth);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-luxury);
+            border-color: var(--accent-gold);
+        }
+
+        .product-image-wrapper {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(212,175,55,0.08) 0%, transparent 60%);
+            pointer-events: none;
         }
 
         .product-image {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             transition: var(--transition-smooth);
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.3));
         }
 
-        .product-card:hover .product-image { transform: scale(1.05); }
+        .product-card:hover .product-image {
+            transform: scale(1.08) translateY(-5px);
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+        }
 
-        .product-info { padding: 20px; }
+        .product-image-fallback {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(26,147,111,0.3), rgba(11,77,44,0.3));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent-gold);
+        }
+
+        .product-info {
+            padding: 20px;
+            background: linear-gradient(180deg, transparent 0%, rgba(5,46,26,0.4) 100%);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
         .product-name {
             font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 8px;
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+            line-height: 1.3;
         }
 
         .product-brand {
             font-size: 0.85rem;
             opacity: 0.7;
             margin-bottom: 15px;
+            color: var(--accent-gold);
         }
 
         .product-actions {
@@ -1743,6 +1822,8 @@
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_detergents">Detergents</a></li>
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_cosmetics">Cosmetics</a></li>
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_construction">Construction</a></li>
+                    <li><a onclick="scrollToSection('products')" data-i18n="cat_tableware">Tableware</a></li>
+                    <li><a onclick="scrollToSection('products')" data-i18n="cat_safety">Safety Equipment</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -1795,7 +1876,10 @@
         // ==========================================
         // 🛑 PRODUCT DATA - ALL CATEGORIES AND BRANDS
         // ==========================================
-        const productData = {
+        // ==========================================
+// 🛑 PRODUCT DATA - CATALOGUES INTÉGRÉS
+// ==========================================
+const productData = {
     alimentation: {
         id: 'alimentation',
         name: { en: 'Food & Beverages', fr: 'Alimentation' },
@@ -1824,11 +1908,11 @@
                             { id: 'hb10', name: 'Hamoud Royal', image: './images/prod_hamoud_10.jpg' }
                         ]
                     },
-                    ifri: {
+                                        ifri: {
                         name: 'Ifri',
                         image: './images/brand_beverage_ifri.jpg',
                         products: [
-                            { id: 'if1', name: 'Ifri Cola', image: './images/prod_ifri_1.jpg' },
+{ id: 'if1', name: 'Ifri Cola', image: './images/prod_ifri_1.jpg' },
                             { id: 'if2', name: 'Ifri Orange', image: './images/prod_ifri_2.jpg' },
                             { id: 'if3', name: 'Ifri Citron', image: './images/prod_ifri_3.jpg' },
                             { id: 'if4', name: 'Ifri Ananas', image: './images/prod_ifri_4.jpg' },
@@ -1837,14 +1921,30 @@
                             { id: 'if7', name: 'Ifri Energy', image: './images/prod_ifri_7.jpg' },
                             { id: 'if8', name: 'Ifri Lite', image: './images/prod_ifri_8.jpg' },
                             { id: 'if9', name: 'Ifri Zero', image: './images/prod_ifri_9.jpg' },
-                            { id: 'if10', name: 'Ifri Max', image: './images/prod_ifri_10.jpg' }
+                            { id: 'if10', name: 'Ifri Max', image: './images/prod_ifri_10.jpg' },
+                            { id: 'if11', name: 'Ifri Gazouz 1', image: './images/ifri_gaz_1.png' },
+                            { id: 'if12', name: 'Ifri Gazouz 2', image: './images/ifri_gaz_4.png' },
+                            { id: 'if13', name: 'Ifri Gazouz 3', image: './images/ifri_gaz_5.png' },
+                            { id: 'if14', name: 'Ifri Gazouz 4', image: './images/ifri_gaz_6.png' },
+                            { id: 'if15', name: 'Ifri Gazouz 5', image: './images/ifri_gaz_7.png' },
+                            { id: 'if16', name: 'Ifri Gazouz 6', image: './images/ifri_gaz_8.png' },
+                            { id: 'if17', name: 'Ifri Gazouz 7', image: './images/ifri_gaz_9.png' },
+                            { id: 'if18', name: 'Ifri Jus 1', image: './images/ifri_jus_1.png' },
+                            { id: 'if19', name: 'Ifri Jus 2', image: './images/ifri_jus_2.png' },
+                            { id: 'if20', name: 'Ifri Jus 3', image: './images/ifri_jus_3.png' },
+                            { id: 'if21', name: 'Ifri Jus 4', image: './images/ifri_jus_4.png' },
+                            { id: 'if22', name: 'Ifri Jus 5', image: './images/ifri_jus_5.png' },
+                            { id: 'if23', name: 'Ifri Jus 6', image: './images/ifri_jus_6.png' },
+                            { id: 'if24', name: 'Ifri Jus 7', image: './images/ifri_jus_7.png' },
+                            { id: 'if25', name: 'Ifri Jus 8', image: './images/ifri_jus_8.png' },
+                            { id: 'if26', name: 'Ifri Jus 9', image: './images/ifri_jus_10.png' }
                         ]
                     },
-                    izem: {
+                                        izem: {
                         name: 'Izem',
                         image: './images/brand_beverage_izem.jpg',
                         products: [
-                            { id: 'iz1', name: 'Izem Water', image: './images/prod_izem_1.jpg' },
+{ id: 'iz1', name: 'Izem Water', image: './images/prod_izem_1.jpg' },
                             { id: 'iz2', name: 'Izem Sparkling', image: './images/prod_izem_2.jpg' },
                             { id: 'iz3', name: 'Izem Mineral', image: './images/prod_izem_3.jpg' },
                             { id: 'iz4', name: 'Izem Natural', image: './images/prod_izem_4.jpg' },
@@ -1853,14 +1953,24 @@
                             { id: 'iz7', name: 'Izem Sport', image: './images/prod_izem_7.jpg' },
                             { id: 'iz8', name: 'Izem Kids', image: './images/prod_izem_8.jpg' },
                             { id: 'iz9', name: 'Izem Glass', image: './images/prod_izem_9.jpg' },
-                            { id: 'iz10', name: 'Izem Crystal', image: './images/prod_izem_10.jpg' }
+                            { id: 'iz10', name: 'Izem Crystal', image: './images/prod_izem_10.jpg' },
+                            { id: 'iz11', name: 'Izem Energy 1', image: './images/izem_1.png' },
+                            { id: 'iz12', name: 'Izem Energy 2', image: './images/izem_2.png' },
+                            { id: 'iz13', name: 'Izem Energy 3', image: './images/izem_3.png' },
+                            { id: 'iz14', name: 'Izem Energy 4', image: './images/izem_4.png' },
+                            { id: 'iz15', name: 'Izem Energy 5', image: './images/izem_5.png' },
+                            { id: 'iz16', name: 'Izem Energy 6', image: './images/izem_6.png' },
+                            { id: 'iz17', name: 'Izem Energy 7', image: './images/izem_7.png' },
+                            { id: 'iz18', name: 'Izem Energy 8', image: './images/izem_8.png' },
+                            { id: 'iz19', name: 'Izem Energy 9', image: './images/izem_9.png' },
+                            { id: 'iz20', name: 'Izem Energy 10', image: './images/izem_10.png' }
                         ]
                     },
-                    rouiba: {
+                                        rouiba: {
                         name: 'Rouiba',
                         image: './images/brand_beverage_rouiba.jpg',
                         products: [
-                            { id: 'ro1', name: 'Rouiba Juice', image: './images/prod_rouiba_1.jpg' },
+{ id: 'ro1', name: 'Rouiba Juice', image: './images/prod_rouiba_1.jpg' },
                             { id: 'ro2', name: 'Rouiba Nectar', image: './images/prod_rouiba_2.jpg' },
                             { id: 'ro3', name: 'Rouiba Cocktail', image: './images/prod_rouiba_3.jpg' },
                             { id: 'ro4', name: 'Rouiba Peach', image: './images/prod_rouiba_4.jpg' },
@@ -1869,23 +1979,28 @@
                             { id: 'ro7', name: 'Rouiba Orange', image: './images/prod_rouiba_7.jpg' },
                             { id: 'ro8', name: 'Rouiba Multifruit', image: './images/prod_rouiba_8.jpg' },
                             { id: 'ro9', name: 'Rouiba Red', image: './images/prod_rouiba_9.jpg' },
-                            { id: 'ro10', name: 'Rouiba Gold', image: './images/prod_rouiba_10.jpg' }
+                            { id: 'ro10', name: 'Rouiba Gold', image: './images/prod_rouiba_10.jpg' },
+                            { id: 'ro11', name: 'Rouiba Jus 1', image: './images/rouiba_1.png' },
+                            { id: 'ro12', name: 'Rouiba Jus 2', image: './images/rouiba_2.png' },
+                            { id: 'ro13', name: 'Rouiba Jus 3', image: './images/rouiba_3.png' },
+                            { id: 'ro14', name: 'Rouiba Jus 4', image: './images/rouiba_4.png' },
+                            { id: 'ro15', name: 'Rouiba Jus 5', image: './images/rouiba_5.png' }
                         ]
                     },
                     ngaous: {
-                        name: "N'Gaous",
-                        image: './images/brand_beverage_ngaous.jpg',
+                        name: "N\'Gaous",
+                        image: './images/ngaous.png',
                         products: [
-                            { id: 'ng1', name: "N'Gaous Water", image: './images/prod_ngaous_1.jpg' },
-                            { id: 'ng2', name: "N'Gaous Pure", image: './images/prod_ngaous_2.jpg' },
-                            { id: 'ng3', name: "N'Gaous Fresh", image: './images/prod_ngaous_3.jpg' },
-                            { id: 'ng4', name: "N'Gaous Light", image: './images/prod_ngaous_4.jpg' },
-                            { id: 'ng5', name: "N'Gaous Sport", image: './images/prod_ngaous_5.jpg' },
-                            { id: 'ng6', name: "N'Gaous Kids", image: './images/prod_ngaous_6.jpg' },
-                            { id: 'ng7', name: "N'Gaous Glass", image: './images/prod_ngaous_7.jpg' },
-                            { id: 'ng8', name: "N'Gaous Family", image: './images/prod_ngaous_8.jpg' },
-                            { id: 'ng9', name: "N'Gaous Crystal", image: './images/prod_ngaous_9.jpg' },
-                            { id: 'ng10', name: "N'Gaous Premium", image: './images/prod_ngaous_10.jpg' }
+                            { id: 'ng1', name: "N\'Gaous Water", image: './images/prod_ngaous_1.jpg' },
+                            { id: 'ng2', name: "N\'Gaous Pure", image: './images/prod_ngaous_2.jpg' },
+                            { id: 'ng3', name: "N\'Gaous Fresh", image: './images/prod_ngaous_3.jpg' },
+                            { id: 'ng4', name: "N\'Gaous Light", image: './images/prod_ngaous_4.jpg' },
+                            { id: 'ng5', name: "N\'Gaous Sport", image: './images/prod_ngaous_5.jpg' },
+                            { id: 'ng6', name: "N\'Gaous Kids", image: './images/prod_ngaous_6.jpg' },
+                            { id: 'ng7', name: "N\'Gaous Glass", image: './images/prod_ngaous_7.jpg' },
+                            { id: 'ng8', name: "N\'Gaous Family", image: './images/prod_ngaous_8.jpg' },
+                            { id: 'ng9', name: "N\'Gaous Crystal", image: './images/prod_ngaous_9.jpg' },
+                            { id: 'ng10', name: "N\'Gaous Premium", image: './images/prod_ngaous_10.jpg' }
                         ]
                     },
                     tazej: {
@@ -1920,11 +2035,11 @@
                             { id: 'za10', name: 'Zaim Gold', image: './images/prod_zaim_10.jpg' }
                         ]
                     },
-                    jucefwara: {
+                                        jucefwara: {
                         name: 'Juce Fwara',
                         image: './images/brand_beverage_jucefwara.jpg',
                         products: [
-                            { id: 'jf1', name: 'Juce Fwara Mix', image: './images/prod_jucefwara_1.jpg' },
+{ id: 'jf1', name: 'Juce Fwara Mix', image: './images/prod_jucefwara_1.jpg' },
                             { id: 'jf2', name: 'Juce Fwara Red', image: './images/prod_jucefwara_2.jpg' },
                             { id: 'jf3', name: 'Juce Fwara Orange', image: './images/prod_jucefwara_3.jpg' },
                             { id: 'jf4', name: 'Juce Fwara Green', image: './images/prod_jucefwara_4.jpg' },
@@ -1933,7 +2048,12 @@
                             { id: 'jf7', name: 'Juce Fwara Tropical', image: './images/prod_jucefwara_7.jpg' },
                             { id: 'jf8', name: 'Juce Fwara Exotic', image: './images/prod_jucefwara_8.jpg' },
                             { id: 'jf9', name: 'Juce Fwara Fresh', image: './images/prod_jucefwara_9.jpg' },
-                            { id: 'jf10', name: 'Juce Fwara Premium', image: './images/prod_jucefwara_10.jpg' }
+                            { id: 'jf10', name: 'Juce Fwara Premium', image: './images/prod_jucefwara_10.jpg' },
+                            { id: 'jf11', name: 'Juce Fwara 1', image: './images/fouara_1.png' },
+                            { id: 'jf12', name: 'Juce Fwara 2', image: './images/fouara_2.png' },
+                            { id: 'jf13', name: 'Juce Fwara 3', image: './images/fouara_3.png' },
+                            { id: 'jf14', name: 'Juce Fwara 4', image: './images/fouara_4.png' },
+                            { id: 'jf15', name: 'Juce Fwara 5', image: './images/fouara_5.png' }
                         ]
                     },
                     casera: {
@@ -1993,7 +2113,7 @@
                 brands: {
                     cherchel: {
                         name: 'Cherchel',
-                        image: './images/brand_biscuit_cherchel.jpg',
+                        image: './images/chercheljpg.jpg',
                         products: [
                             { id: 'ch1', name: 'Cherchel Biscuits', image: './images/prod_cherchel_1.jpg' },
                             { id: 'ch2', name: 'Cherchel Classic', image: './images/prod_cherchel_2.jpg' },
@@ -2116,112 +2236,78 @@
                         name: 'El Mordjene',
                         image: './images/brand_tartini_elmordjene.jpg',
                         products: [
-                            { id: 'em1', name: 'El Mordjene Spread', image: './images/prod_elmordjene_1.jpg' },
-                            { id: 'em2', name: 'El Mordjene Classic', image: './images/prod_elmordjene_2.jpg' },
-                            { id: 'em3', name: 'El Mordjene Choco', image: './images/prod_elmordjene_3.jpg' },
-                            { id: 'em4', name: 'El Mordjene Hazelnut', image: './images/prod_elmordjene_4.jpg' },
-                            { id: 'em5', name: 'El Mordjene Family', image: './images/prod_elmordjene_5.jpg' },
-                            { id: 'em6', name: 'El Mordjene Maxi', image: './images/prod_elmordjene_6.jpg' },
-                            { id: 'em7', name: 'El Mordjene Mini', image: './images/prod_elmordjene_7.jpg' },
-                            { id: 'em8', name: 'El Mordjene Duo', image: './images/prod_elmordjene_8.jpg' },
-                            { id: 'em9', name: 'El Mordjene Premium', image: './images/prod_elmordjene_9.jpg' },
-                            { id: 'em10', name: 'El Mordjene Royal', image: './images/prod_elmordjene_10.jpg' }
+                            { id: 'em1', name: 'El Mordjene 1', image: './images/260.jpg' },
+                            { id: 'em2', name: 'El Mordjene 2', image: './images/261.jpg' },
+                            { id: 'em3', name: 'El Mordjene 3', image: './images/262.jpg' },
+                            { id: 'em4', name: 'El Mordjene 4', image: './images/263.jpg' },
+                            { id: 'em5', name: 'El Mordjene 5', image: './images/264.jpg' }
                         ]
                     },
                     optilla: {
                         name: 'Optilla',
                         image: './images/brand_tartini_optilla.jpg',
                         products: [
-                            { id: 'op1', name: 'Optilla Hazelnut', image: './images/prod_optilla_1.jpg' },
-                            { id: 'op2', name: 'Optilla Classic', image: './images/prod_optilla_2.jpg' },
-                            { id: 'op3', name: 'Optilla Choco', image: './images/prod_optilla_3.jpg' },
-                            { id: 'op4', name: 'Optilla White', image: './images/prod_optilla_4.jpg' },
-                            { id: 'op5', name: 'Optilla Dark', image: './images/prod_optilla_5.jpg' },
-                            { id: 'op6', name: 'Optilla Milk', image: './images/prod_optilla_6.jpg' },
-                            { id: 'op7', name: 'Optilla Caramel', image: './images/prod_optilla_7.jpg' },
-                            { id: 'op8', name: 'Optilla Crunchy', image: './images/prod_optilla_8.jpg' },
-                            { id: 'op9', name: 'Optilla Smooth', image: './images/prod_optilla_9.jpg' },
-                            { id: 'op10', name: 'Optilla Deluxe', image: './images/prod_optilla_10.jpg' }
+                            { id: 'op1', name: 'Optilla 1', image: './images/270.jpg' },
+                            { id: 'op2', name: 'Optilla 2', image: './images/271.jpg' },
+                            { id: 'op3', name: 'Optilla 3', image: './images/272.jpg' },
+                            { id: 'op4', name: 'Optilla 4', image: './images/273.jpg' },
+                            { id: 'op5', name: 'Optilla 5', image: './images/274.jpg' }
                         ]
                     },
                     maxongold: {
                         name: 'Maxon Gold',
                         image: './images/brand_tartini_maxongold.jpg',
                         products: [
-                            { id: 'mg1', name: 'Maxon Gold Spread', image: './images/prod_maxongold_1.jpg' },
-                            { id: 'mg2', name: 'Maxon Gold Classic', image: './images/prod_maxongold_2.jpg' },
-                            { id: 'mg3', name: 'Maxon Gold Choco', image: './images/prod_maxongold_3.jpg' },
-                            { id: 'mg4', name: 'Maxon Gold Hazelnut', image: './images/prod_maxongold_4.jpg' },
-                            { id: 'mg5', name: 'Maxon Gold Family', image: './images/prod_maxongold_5.jpg' },
-                            { id: 'mg6', name: 'Maxon Gold Maxi', image: './images/prod_maxongold_6.jpg' },
-                            { id: 'mg7', name: 'Maxon Gold Mini', image: './images/prod_maxongold_7.jpg' },
-                            { id: 'mg8', name: 'Maxon Gold Duo', image: './images/prod_maxongold_8.jpg' },
-                            { id: 'mg9', name: 'Maxon Gold Premium', image: './images/prod_maxongold_9.jpg' },
-                            { id: 'mg10', name: 'Maxon Gold Royal', image: './images/prod_maxongold_10.jpg' }
+                            { id: 'mg1', name: 'Maxon Gold 1', image: './images/280.jpg' },
+                            { id: 'mg2', name: 'Maxon Gold 2', image: './images/281.jpg' },
+                            { id: 'mg3', name: 'Maxon Gold 3', image: './images/282.jpg' },
+                            { id: 'mg4', name: 'Maxon Gold 4', image: './images/283.jpg' },
+                            { id: 'mg5', name: 'Maxon Gold 5', image: './images/284.jpg' }
                         ]
                     },
                     happy: {
                         name: 'Happy',
                         image: './images/brand_tartini_happy.jpg',
                         products: [
-                            { id: 'ha1', name: 'Happy Choco', image: './images/prod_happy_1.jpg' },
-                            { id: 'ha2', name: 'Happy Classic', image: './images/prod_happy_2.jpg' },
-                            { id: 'ha3', name: 'Happy Hazelnut', image: './images/prod_happy_3.jpg' },
-                            { id: 'ha4', name: 'Happy White', image: './images/prod_happy_4.jpg' },
-                            { id: 'ha5', name: 'Happy Dark', image: './images/prod_happy_5.jpg' },
-                            { id: 'ha6', name: 'Happy Milk', image: './images/prod_happy_6.jpg' },
-                            { id: 'ha7', name: 'Happy Caramel', image: './images/prod_happy_7.jpg' },
-                            { id: 'ha8', name: 'Happy Crunchy', image: './images/prod_happy_8.jpg' },
-                            { id: 'ha9', name: 'Happy Smooth', image: './images/prod_happy_9.jpg' },
-                            { id: 'ha10', name: 'Happy Deluxe', image: './images/prod_happy_10.jpg' }
+                            { id: 'ha1', name: 'Happy 1', image: './images/290.jpg' },
+                            { id: 'ha2', name: 'Happy 2', image: './images/291.jpg' },
+                            { id: 'ha3', name: 'Happy 3', image: './images/292.jpg' },
+                            { id: 'ha4', name: 'Happy 4', image: './images/293.jpg' }
                         ]
                     },
                     koolspread: {
-                        name: 'Kool Spread',
-                        image: './images/brand_tartini_koolspread.jpg',
+                        name: 'El Tadj',
+                        image: './images/brand_tartini_eltadj.jpg',
                         products: [
-                            { id: 'ks1', name: 'Kool Spread Classic', image: './images/prod_koolspread_1.jpg' },
-                            { id: 'ks2', name: 'Kool Spread Choco', image: './images/prod_koolspread_2.jpg' },
-                            { id: 'ks3', name: 'Kool Spread Hazelnut', image: './images/prod_koolspread_3.jpg' },
-                            { id: 'ks4', name: 'Kool Spread White', image: './images/prod_koolspread_4.jpg' },
-                            { id: 'ks5', name: 'Kool Spread Dark', image: './images/prod_koolspread_5.jpg' },
-                            { id: 'ks6', name: 'Kool Spread Milk', image: './images/prod_koolspread_6.jpg' },
-                            { id: 'ks7', name: 'Kool Spread Caramel', image: './images/prod_koolspread_7.jpg' },
-                            { id: 'ks8', name: 'Kool Spread Crunchy', image: './images/prod_koolspread_8.jpg' },
-                            { id: 'ks9', name: 'Kool Spread Smooth', image: './images/prod_koolspread_9.jpg' },
-                            { id: 'ks10', name: 'Kool Spread Deluxe', image: './images/prod_koolspread_10.jpg' }
+                            { id: 'et1', name: 'El Tadj 1', image: './images/300.jpg' },
+                            { id: 'et2', name: 'El Tadj 2', image: './images/301.jpg' },
+                            { id: 'et3', name: 'El Tadj 3', image: './images/302.jpg' }
                         ]
                     },
                     moon: {
                         name: 'Moon',
                         image: './images/brand_tartini_moon.jpg',
                         products: [
-                            { id: 'mo1', name: 'Moon Spread', image: './images/prod_moon_1.jpg' },
-                            { id: 'mo2', name: 'Moon Classic', image: './images/prod_moon_2.jpg' },
-                            { id: 'mo3', name: 'Moon Choco', image: './images/prod_moon_3.jpg' },
-                            { id: 'mo4', name: 'Moon Hazelnut', image: './images/prod_moon_4.jpg' },
-                            { id: 'mo5', name: 'Moon White', image: './images/prod_moon_5.jpg' },
-                            { id: 'mo6', name: 'Moon Dark', image: './images/prod_moon_6.jpg' },
-                            { id: 'mo7', name: 'Moon Milk', image: './images/prod_moon_7.jpg' },
-                            { id: 'mo8', name: 'Moon Caramel', image: './images/prod_moon_8.jpg' },
-                            { id: 'mo9', name: 'Moon Crunchy', image: './images/prod_moon_9.jpg' },
-                            { id: 'mo10', name: 'Moon Deluxe', image: './images/prod_moon_10.jpg' }
+                            { id: 'mo1', name: 'Moon 1', image: './images/310.jpg' },
+                            { id: 'mo2', name: 'Moon 2', image: './images/311.jpg' },
+                            { id: 'mo3', name: 'Moon 3', image: './images/312.jpg' },
+                            { id: 'mo4', name: 'Moon 4', image: './images/313.jpg' },
+                            { id: 'mo5', name: 'Moon 5', image: './images/314.jpg' },
+                            { id: 'mo6', name: 'Moon 6', image: './images/315.jpg' }
                         ]
                     },
                     novella: {
                         name: 'Novella',
                         image: './images/brand_tartini_novella.jpg',
                         products: [
-                            { id: 'no1', name: 'Novella Hazelnut', image: './images/prod_novella_1.jpg' },
-                            { id: 'no2', name: 'Novella Classic', image: './images/prod_novella_2.jpg' },
-                            { id: 'no3', name: 'Novella Choco', image: './images/prod_novella_3.jpg' },
-                            { id: 'no4', name: 'Novella White', image: './images/prod_novella_4.jpg' },
-                            { id: 'no5', name: 'Novella Dark', image: './images/prod_novella_5.jpg' },
-                            { id: 'no6', name: 'Novella Milk', image: './images/prod_novella_6.jpg' },
-                            { id: 'no7', name: 'Novella Caramel', image: './images/prod_novella_7.jpg' },
-                            { id: 'no8', name: 'Novella Crunchy', image: './images/prod_novella_8.jpg' },
-                            { id: 'no9', name: 'Novella Smooth', image: './images/prod_novella_9.jpg' },
-                            { id: 'no10', name: 'Novella Deluxe', image: './images/prod_novella_10.jpg' }
+                            { id: 'no1', name: 'Novella 1', image: './images/305.jpg' },
+                            { id: 'no2', name: 'Novella 2', image: './images/306.jpg' },
+                            { id: 'no3', name: 'Novella 3', image: './images/307.jpg' },
+                            { id: 'no4', name: 'Novella 4', image: './images/316.jpg' },
+                            { id: 'no5', name: 'Novella 5', image: './images/317.jpg' },
+                            { id: 'no6', name: 'Novella 6', image: './images/318.jpg' },
+                            { id: 'no7', name: 'Novella 7', image: './images/319.jpg' },
+                            { id: 'no8', name: 'Novella 8', image: './images/320.jpg' }
                         ]
                     }
                 }
@@ -2248,6 +2334,25 @@
                         ]
                     }
                 }
+            },
+            oils: {
+                name: { en: 'Oils', fr: 'Huiles' },
+                image: './images/sub_oils.jpg',
+                icon: 'fas fa-bottle-droplet',
+                brands: {
+                    menai: {
+                        name: 'Menai',
+                        image: './images/brand_food_menai.jpg',
+                        products: [
+                            { id: 'mn1', name: 'Menai 1', image: './images/321.jpg' },
+                            { id: 'mn2', name: 'Menai 2', image: './images/322.jpg' },
+                            { id: 'mn3', name: 'Menai 3', image: './images/323.jpg' },
+                            { id: 'mn4', name: 'Menai 4', image: './images/324.jpg' },
+                            { id: 'mn5', name: 'Menai 5', image: './images/325.jpg' },
+                            { id: 'mn6', name: 'Menai 6', image: './images/326.jpg' }
+                        ]
+                    }
+                }
             }
         }
     },
@@ -2267,80 +2372,111 @@
                         name: 'Amir Clean',
                         image: './images/brand_detergent_amirclean.jpg',
                         products: [
-                            { id: 'ac1', name: 'Amir Clean Multi-Purpose', image: './images/prod_amirclean_1.jpg' },
-                            { id: 'ac2', name: 'Amir Clean Floor Cleaner', image: './images/prod_amirclean_2.jpg' },
-                            { id: 'ac3', name: 'Amir Clean Glass', image: './images/prod_amirclean_3.jpg' },
-                            { id: 'ac4', name: 'Amir Clean Kitchen', image: './images/prod_amirclean_4.jpg' },
-                            { id: 'ac5', name: 'Amir Clean Bathroom', image: './images/prod_amirclean_5.jpg' },
-                            { id: 'ac6', name: 'Amir Clean Toilet', image: './images/prod_amirclean_6.jpg' },
-                            { id: 'ac7', name: 'Amir Clean Outdoor', image: './images/prod_amirclean_7.jpg' },
-                            { id: 'ac8', name: 'Amir Clean Car', image: './images/prod_amirclean_8.jpg' },
-                            { id: 'ac9', name: 'Amir Clean Industrial', image: './images/prod_amirclean_9.jpg' },
-                            { id: 'ac10', name: 'Amir Clean Premium', image: './images/prod_amirclean_10.jpg' }
+                            { id: 'ac1', name: 'Amir Clean 1', image: './images/150.jpg' },
+                            { id: 'ac2', name: 'Amir Clean 2', image: './images/151.jpg' },
+                            { id: 'ac3', name: 'Amir Clean 3', image: './images/152.jpg' },
+                            { id: 'ac4', name: 'Amir Clean 4', image: './images/153.jpg' },
+                            { id: 'ac5', name: 'Amir Clean 5', image: './images/154.jpg' },
+                            { id: 'ac6', name: 'Amir Clean 6', image: './images/155.jpg' },
+                            { id: 'ac7', name: 'Amir Clean 7', image: './images/156.jpg' },
+                            { id: 'ac8', name: 'Amir Clean 8', image: './images/157.jpg' },
+                            { id: 'ac9', name: 'Amir Clean 9', image: './images/158.jpg' },
+                            { id: 'ac10', name: 'Amir Clean 10', image: './images/159.jpg' },
+                            { id: 'ac11', name: 'Amir Clean 11', image: './images/160.jpg' },
+                            { id: 'ac12', name: 'Amir Clean 12', image: './images/161.jpg' },
+                            { id: 'ac13', name: 'Amir Clean 13', image: './images/162.jpg' },
+                            { id: 'ac14', name: 'Amir Clean 14', image: './images/163.jpg' },
+                            { id: 'ac15', name: 'Amir Clean 15', image: './images/164.jpg' },
+                            { id: 'ac16', name: 'Amir Clean 16', image: './images/165.jpg' },
+                            { id: 'ac17', name: 'Amir Clean 17', image: './images/166.jpg' },
+                            { id: 'ac18', name: 'Amir Clean 18', image: './images/167.jpg' },
+                            { id: 'ac19', name: 'Amir Clean 19', image: './images/168.jpg' },
+                            { id: 'ac20', name: 'Amir Clean 20', image: './images/169.jpg' },
+                            { id: 'ac21', name: 'Amir Clean 21', image: './images/170.jpg' },
+                            { id: 'ac22', name: 'Amir Clean 22', image: './images/171.jpg' },
+                            { id: 'ac23', name: 'Amir Clean 23', image: './images/172.jpg' }
                         ]
                     },
                     lina: {
                         name: 'Lina',
                         image: './images/brand_detergent_lina.jpg',
                         products: [
-                            { id: 'li1', name: 'Lina Detergent', image: './images/prod_lina_1.jpg' },
-                            { id: 'li2', name: 'Lina Liquid', image: './images/prod_lina_2.jpg' },
-                            { id: 'li3', name: 'Lina Powder', image: './images/prod_lina_3.jpg' },
-                            { id: 'li4', name: 'Lina Tablets', image: './images/prod_lina_4.jpg' },
-                            { id: 'li5', name: 'Lina Pods', image: './images/prod_lina_5.jpg' },
-                            { id: 'li6', name: 'Lina Soft', image: './images/prod_lina_6.jpg' },
-                            { id: 'li7', name: 'Lina Strong', image: './images/prod_lina_7.jpg' },
-                            { id: 'li8', name: 'Lina Color', image: './images/prod_lina_8.jpg' },
-                            { id: 'li9', name: 'Lina White', image: './images/prod_lina_9.jpg' },
-                            { id: 'li10', name: 'Lina Black', image: './images/prod_lina_10.jpg' }
+                            { id: 'li1', name: 'Lina 1', image: './images/180.jpg' },
+                            { id: 'li2', name: 'Lina 2', image: './images/181.jpg' },
+                            { id: 'li3', name: 'Lina 3', image: './images/182.jpg' },
+                            { id: 'li4', name: 'Lina 4', image: './images/183.jpg' },
+                            { id: 'li5', name: 'Lina 5', image: './images/184.jpg' }
                         ]
                     },
                     life: {
                         name: 'Life',
                         image: './images/brand_detergent_life.jpg',
                         products: [
-                            { id: 'lf1', name: 'Life Soap', image: './images/prod_life_1.jpg' },
-                            { id: 'lf2', name: 'Life Liquid Soap', image: './images/prod_life_2.jpg' },
-                            { id: 'lf3', name: 'Life Bar Soap', image: './images/prod_life_3.jpg' },
-                            { id: 'lf4', name: 'Life Hand Wash', image: './images/prod_life_4.jpg' },
-                            { id: 'lf5', name: 'Life Body Wash', image: './images/prod_life_5.jpg' },
-                            { id: 'lf6', name: 'Life Shampoo', image: './images/prod_life_6.jpg' },
-                            { id: 'lf7', name: 'Life Conditioner', image: './images/prod_life_7.jpg' },
-                            { id: 'lf8', name: 'Life Shower Gel', image: './images/prod_life_8.jpg' },
-                            { id: 'lf9', name: 'Life Antibacterial', image: './images/prod_life_9.jpg' },
-                            { id: 'lf10', name: 'Life Premium', image: './images/prod_life_10.jpg' }
+                            { id: 'lf1', name: 'Life 1', image: './images/220.jpg' },
+                            { id: 'lf2', name: 'Life 2', image: './images/221.jpg' },
+                            { id: 'lf3', name: 'Life 3', image: './images/222.jpg' },
+                            { id: 'lf4', name: 'Life 4', image: './images/223.jpg' },
+                            { id: 'lf5', name: 'Life 5', image: './images/224.jpg' },
+                            { id: 'lf6', name: 'Life 6', image: './images/225.jpg' },
+                            { id: 'lf7', name: 'Life 7', image: './images/226.jpg' },
+                            { id: 'lf8', name: 'Life 8', image: './images/227.jpg' },
+                            { id: 'lf9', name: 'Life 9', image: './images/228.jpg' },
+                            { id: 'lf10', name: 'Life 10', image: './images/229.jpg' },
+                            { id: 'lf11', name: 'Life 11', image: './images/230.jpg' },
+                            { id: 'lf12', name: 'Life 12', image: './images/231.jpg' },
+                            { id: 'lf13', name: 'Life 13', image: './images/232.jpg' },
+                            { id: 'lf14', name: 'Life 14', image: './images/233.jpg' },
+                            { id: 'lf15', name: 'Life 15', image: './images/234.jpg' },
+                            { id: 'lf16', name: 'Life 16', image: './images/235.jpg' }
                         ]
                     },
                     stic: {
                         name: 'Stic',
                         image: './images/brand_detergent_stic.jpg',
                         products: [
-                            { id: 'st1', name: 'Stic Cleaner', image: './images/prod_stic_1.jpg' },
-                            { id: 'st2', name: 'Stic Multi', image: './images/prod_stic_2.jpg' },
-                            { id: 'st3', name: 'Stic Floor', image: './images/prod_stic_3.jpg' },
-                            { id: 'st4', name: 'Stic Glass', image: './images/prod_stic_4.jpg' },
-                            { id: 'st5', name: 'Stic Kitchen', image: './images/prod_stic_5.jpg' },
-                            { id: 'st6', name: 'Stic Bathroom', image: './images/prod_stic_6.jpg' },
-                            { id: 'st7', name: 'Stic Toilet', image: './images/prod_stic_7.jpg' },
-                            { id: 'st8', name: 'Stic Outdoor', image: './images/prod_stic_8.jpg' },
-                            { id: 'st9', name: 'Stic Car', image: './images/prod_stic_9.jpg' },
-                            { id: 'st10', name: 'Stic Premium', image: './images/prod_stic_10.jpg' }
+                            { id: 'st1', name: 'Stic 1', image: './images/240.jpg' },
+                            { id: 'st2', name: 'Stic 2', image: './images/241.jpg' },
+                            { id: 'st3', name: 'Stic 3', image: './images/242.jpg' },
+                            { id: 'st4', name: 'Stic 4', image: './images/243.jpg' },
+                            { id: 'st5', name: 'Stic 5', image: './images/244.jpg' },
+                            { id: 'st6', name: 'Stic 6', image: './images/245.jpg' },
+                            { id: 'st7', name: 'Stic 7', image: './images/246.jpg' },
+                            { id: 'st8', name: 'Stic 8', image: './images/247.jpg' },
+                            { id: 'st9', name: 'Stic 9', image: './images/248.jpg' }
                         ]
                     },
-                    doriflor: {
-                        name: 'Doriflor',
-                        image: './images/brand_detergent_doriflor.jpg',
+                    topsil: {
+                        name: 'TopSil',
+                        image: './images/topsilpng.png',
                         products: [
-                            { id: 'do1', name: 'Doriflor Softener', image: './images/prod_doriflor_1.jpg' },
-                            { id: 'do2', name: 'Doriflor Liquid', image: './images/prod_doriflor_2.jpg' },
-                            { id: 'do3', name: 'Doriflor Powder', image: './images/prod_doriflor_3.jpg' },
-                            { id: 'do4', name: 'Doriflor Tablets', image: './images/prod_doriflor_4.jpg' },
-                            { id: 'do5', name: 'Doriflor Pods', image: './images/prod_doriflor_5.jpg' },
-                            { id: 'do6', name: 'Doriflor Soft', image: './images/prod_doriflor_6.jpg' },
-                            { id: 'do7', name: 'Doriflor Strong', image: './images/prod_doriflor_7.jpg' },
-                            { id: 'do8', name: 'Doriflor Color', image: './images/prod_doriflor_8.jpg' },
-                            { id: 'do9', name: 'Doriflor White', image: './images/prod_doriflor_9.jpg' },
-                            { id: 'do10', name: 'Doriflor Premium', image: './images/prod_doriflor_10.jpg' }
+                            { id: 'ts1', name: 'TopSil 1', image: './images/190.jpg' },
+                            { id: 'ts2', name: 'TopSil 2', image: './images/191.jpg' },
+                            { id: 'ts3', name: 'TopSil 3', image: './images/192.jpg' },
+                            { id: 'ts4', name: 'TopSil 4', image: './images/193.jpg' },
+                            { id: 'ts5', name: 'TopSil 5', image: './images/194.jpg' },
+                            { id: 'ts6', name: 'TopSil 6', image: './images/195.jpg' },
+                            { id: 'ts7', name: 'TopSil 7', image: './images/196.jpg' },
+                            { id: 'ts8', name: 'TopSil 8', image: './images/197.jpg' },
+                            { id: 'ts9', name: 'TopSil 9', image: './images/198.jpg' },
+                            { id: 'ts10', name: 'TopSil 10', image: './images/199.jpg' },
+                            { id: 'ts11', name: 'TopSil 11', image: './images/200.jpg' },
+                            { id: 'ts12', name: 'TopSil 12', image: './images/201.jpg' },
+                            { id: 'ts13', name: 'TopSil 13', image: './images/202.jpg' },
+                            { id: 'ts14', name: 'TopSil 14', image: './images/203.jpg' },
+                            { id: 'ts15', name: 'TopSil 15', image: './images/204.jpg' },
+                            { id: 'ts16', name: 'TopSil 16', image: './images/205.jpg' },
+                            { id: 'ts17', name: 'TopSil 17', image: './images/206.jpg' },
+                            { id: 'ts18', name: 'TopSil 18', image: './images/207.jpg' },
+                            { id: 'ts19', name: 'TopSil 19', image: './images/208.jpg' },
+                            { id: 'ts20', name: 'TopSil 20', image: './images/209.jpg' },
+                            { id: 'ts21', name: 'TopSil 21', image: './images/210.jpg' },
+                            { id: 'ts22', name: 'TopSil 22', image: './images/211.jpg' },
+                            { id: 'ts23', name: 'TopSil 23', image: './images/212.jpg' },
+                            { id: 'ts24', name: 'TopSil 24', image: './images/213.jpg' },
+                            { id: 'ts25', name: 'TopSil 25', image: './images/214.jpg' },
+                            { id: 'ts26', name: 'TopSil 26', image: './images/215.jpg' },
+                            { id: 'ts27', name: 'TopSil 27', image: './images/216.jpg' },
+                            { id: 'ts28', name: 'TopSil 28', image: './images/217.jpg' }
                         ]
                     }
                 }
@@ -2359,96 +2495,169 @@
                 image: './images/sub_cosmetics.jpg',
                 icon: 'fas fa-tags',
                 brands: {
-                    venus: {
-                        name: 'Venus',
-                        image: './images/brand_cosmetic_venus.jpg',
+                                        venus: {
+                        name: 'Venus Laboratoires',
+                        image: './images/venus.png',
                         products: [
-                            { id: 've1', name: 'Venus Cream', image: './images/prod_venus_1.jpg' },
-                            { id: 've2', name: 'Venus Lotion', image: './images/prod_venus_2.jpg' },
-                            { id: 've3', name: 'Venus Serum', image: './images/prod_venus_3.jpg' },
-                            { id: 've4', name: 'Venus Mask', image: './images/prod_venus_4.jpg' },
-                            { id: 've5', name: 'Venus Toner', image: './images/prod_venus_5.jpg' },
-                            { id: 've6', name: 'Venus Cleanser', image: './images/prod_venus_6.jpg' },
-                            { id: 've7', name: 'Venus Moisturizer', image: './images/prod_venus_7.jpg' },
-                            { id: 've8', name: 'Venus Night Cream', image: './images/prod_venus_8.jpg' },
-                            { id: 've9', name: 'Venus Day Cream', image: './images/prod_venus_9.jpg' },
-                            { id: 've10', name: 'Venus Premium', image: './images/prod_venus_10.jpg' }
+{ id: 've1', name: "Savon Liquide Parfum Citron", image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/841dd69409e3e4e85dfa3446396a3289067c4945.png', brand: 'Protection contre les bactéries. Sans Paraben. 390ml' },
+                            { id: 've2', name: "Hair Shampoo Color à l\'Acide Hyaluronique", image: 'https://kimi-web-img.moonshot.cn/img/adibabeauty.com/38a2025b194c7f7ceaffeb4230aadf5d2d37ceb1.png', brand: 'Shampooing Protecteur à la Kératine & Filtre UV. 250ml. Pour Cheveux Colorés' },
+                            { id: 've3', name: 'Masque Cheveux Protecteur à la Kératine & UV', image: 'https://kimi-web-img.moonshot.cn/img/adibabeauty.com/57e8eac550be62f1ffca6b23c11f967a53e7e36c.png', brand: 'Masque Protecteur. 250ml. Cheveux Colorés. Sans Paraben' },
+                            { id: 've4', name: "Energy 3en1 Gel Douche - Extrait de Menthe Poivrée", image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/70bb904edb8869252f1f4c18967a5ac7e77029c8.png', brand: 'Corps + Cheveux + Visage. 250ml. 0% Paraben' },
+                            { id: 've5', name: 'Men Expert Shower Gel - Iceberg Effect', image: 'https://kimi-web-img.moonshot.cn/img/cosmetiques.tidjaria.com/fa5e1ac608ce7b9c9f696a25c550cb6693e5b4cf.jpg', brand: 'pH Neutre. Micro-particules. Sans Paraben. Fraîcheur Longue Durée' },
+                            { id: 've6', name: 'Gel Douche Pour Homme - Fresh Fraîcheur Marine', image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/70dc4fd7cfa4bc3ad7c75b94ba29deca1b8e0a5f.png', brand: '3en1. Tonifiant, Stimulant, Revitalisant. Nouveau' },
+                            { id: 've7', name: "Energy 3en1 Gel Douche - Extrait de Spiruline", image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/0141ab517448f82dedaddd5d6c8d0eb31f39b66c.png', brand: 'Corps + Cheveux + Visage. 250ml. 0% Paraben' },
+                            { id: 've8', name: "Energy 3en1 Gel Douche - Extrait de Gingembre", image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/760856e9fcf5c7c61648861b8db57514dfca04d9.png', brand: 'Corps + Cheveux + Visage. 250ml. 0% Paraben' },
+                            { id: 've9', name: 'Eau Micellaire Démaquillante Viderm', image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/385cead055f5bf6a74c850f208edda0a70a3229f.png', brand: 'Hypoallergénique. Visage, Yeux & Lèvres. Testé dermatologique' },
+                            { id: 've10', name: 'Gel Nettoyant Exfoliant Viderm', image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/677de40236893988451a7038142778121710d81b.png', brand: 'Sans Paraben. Tous types de peaux. Testé dermatologique' },
+                            { id: 've11', name: 'Gel Nettoyant Purifiant Viderm', image: 'https://kimi-web-img.moonshot.cn/img/cosmetiques.tidjaria.com/0116cac4a2bb6515a473fcb24ff642b1e17f91c7.jpg', brand: 'Sans Paraben. Tous types de peaux. Testé dermatologique' },
+                            { id: 've12', name: 'Gel Nettoyant Dé tox H2O', image: 'https://kimi-web-img.moonshot.cn/img/laboratoiresvenus.com/ca3a1c7db0fed0874f02e6e70510bfc4290a97f9.png', brand: 'Peau Mixte à Grasse. Sans Sulfate, Paraben. 250ml' },
+                            { id: 've13', name: 'Venus Product 13', image: './images/40.jpg', brand: 'Premium Quality' },
+                            { id: 've14', name: 'Venus Product 14', image: './images/41.jpg', brand: 'Premium Quality' },
+                            { id: 've15', name: 'Venus Product 15', image: './images/42.jpg', brand: 'Premium Quality' },
+                            { id: 've16', name: 'Venus Product 16', image: './images/43.jpg', brand: 'Premium Quality' },
+                            { id: 've17', name: 'Venus Product 17', image: './images/44.jpg', brand: 'Premium Quality' },
+                            { id: 've18', name: 'Venus Product 18', image: './images/45.jpg', brand: 'Premium Quality' },
+                            { id: 've19', name: 'Venus Product 19', image: './images/46.jpg', brand: 'Premium Quality' },
+                            { id: 've20', name: 'Venus Product 20', image: './images/47.jpg', brand: 'Premium Quality' },
+                            { id: 've21', name: 'Venus Product 21', image: './images/48.jpg', brand: 'Premium Quality' },
+                            { id: 've22', name: 'Venus Product 22', image: './images/49.jpg', brand: 'Premium Quality' },
+                            { id: 've23', name: 'Venus Product 23', image: './images/50.jpg', brand: 'Premium Quality' },
+                            { id: 've24', name: 'Venus Product 24', image: './images/51.jpg', brand: 'Premium Quality' },
+                            { id: 've25', name: 'Venus Product 25', image: './images/52.jpg', brand: 'Premium Quality' },
+                            { id: 've26', name: 'Venus Product 26', image: './images/53.jpg', brand: 'Premium Quality' },
+                            { id: 've27', name: 'Venus Product 27', image: './images/54.jpg', brand: 'Premium Quality' },
+                            { id: 've28', name: 'Venus Product 28', image: './images/55.jpg', brand: 'Premium Quality' },
+                            { id: 've29', name: 'Venus Product 29', image: './images/56.jpg', brand: 'Premium Quality' },
+                            { id: 've30', name: 'Venus Product 30', image: './images/57.jpg', brand: 'Premium Quality' },
+                            { id: 've31', name: 'Venus Product 31', image: './images/58.jpg', brand: 'Premium Quality' },
+                            { id: 've32', name: 'Venus Product 32', image: './images/59.jpg', brand: 'Premium Quality' },
+                            { id: 've33', name: 'Venus Product 33', image: './images/60.jpg', brand: 'Premium Quality' },
+                            { id: 've34', name: 'Venus Product 34', image: './images/61.jpg', brand: 'Premium Quality' },
+                            { id: 've35', name: 'Venus Product 35', image: './images/62.jpg', brand: 'Premium Quality' },
+                            { id: 've36', name: 'Venus Product 36', image: './images/63.jpg', brand: 'Premium Quality' },
+                            { id: 've37', name: 'Venus Product 37', image: './images/64.jpg', brand: 'Premium Quality' },
+                            { id: 've38', name: 'Venus Product 38', image: './images/65.jpg', brand: 'Premium Quality' },
+                            { id: 've39', name: 'Venus Product 39', image: './images/66.jpg', brand: 'Premium Quality' },
+                            { id: 've40', name: 'Venus Product 40', image: './images/67.jpg', brand: 'Premium Quality' },
+                            { id: 've41', name: 'Venus Product 41', image: './images/68.jpg', brand: 'Premium Quality' },
+                            { id: 've42', name: 'Venus Product 42', image: './images/69.jpg', brand: 'Premium Quality' },
+                            { id: 've43', name: 'Venus Product 43', image: './images/70.jpg', brand: 'Premium Quality' },
+                            { id: 've44', name: 'Venus Product 44', image: './images/71.jpg', brand: 'Premium Quality' },
+                            { id: 've45', name: 'Venus Product 45', image: './images/72.jpg', brand: 'Premium Quality' },
+                            { id: 've46', name: 'Venus Product 46', image: './images/73.jpg', brand: 'Premium Quality' },
+                            { id: 've47', name: 'Venus Product 47', image: './images/74.jpg', brand: 'Premium Quality' },
+                            { id: 've48', name: 'Venus Product 48', image: './images/75.jpg', brand: 'Premium Quality' },
+                            { id: 've49', name: 'Venus Product 49', image: './images/76.jpg', brand: 'Premium Quality' },
+                            { id: 've50', name: 'Venus Product 50', image: './images/77.jpg', brand: 'Premium Quality' },
+                            { id: 've51', name: 'Venus Product 51', image: './images/78.jpg', brand: 'Premium Quality' }
                         ]
                     },
-                    fluxcare: {
+                                        fluxcare: {
                         name: 'Flux Care',
-                        image: './images/brand_cosmetic_fluxcare.jpg',
+                        image: './images/fluxpng.png',
                         products: [
-                            { id: 'fc1', name: 'Flux Care Lotion', image: './images/prod_fluxcare_1.jpg' },
-                            { id: 'fc2', name: 'Flux Care Cream', image: './images/prod_fluxcare_2.jpg' },
-                            { id: 'fc3', name: 'Flux Care Serum', image: './images/prod_fluxcare_3.jpg' },
-                            { id: 'fc4', name: 'Flux Care Mask', image: './images/prod_fluxcare_4.jpg' },
-                            { id: 'fc5', name: 'Flux Care Toner', image: './images/prod_fluxcare_5.jpg' },
-                            { id: 'fc6', name: 'Flux Care Cleanser', image: './images/prod_fluxcare_6.jpg' },
-                            { id: 'fc7', name: 'Flux Care Moisturizer', image: './images/prod_fluxcare_7.jpg' },
-                            { id: 'fc8', name: 'Flux Care Night', image: './images/prod_fluxcare_8.jpg' },
-                            { id: 'fc9', name: 'Flux Care Day', image: './images/prod_fluxcare_9.jpg' },
-                            { id: 'fc10', name: 'Flux Care Premium', image: './images/prod_fluxcare_10.jpg' }
+{ id: 'fc1', name: 'Flux Care Men Edition - Orange Energy', image: 'https://kimi-web-img.moonshot.cn/img/confiseriedubonheur.net/63910736a785cc5c56e34c6e1e9c64c05ccd591e.jpg', brand: '48h Protection. Sans Aluminium. Déodorant Anti-Transpirant' },
+                            { id: 'fc2', name: 'Flux Care Men Edition - Fennec Edition', image: 'https://kimi-web-img.moonshot.cn/img/adibabeauty.com/07f84a024a609bc7fc0e268aa92ee2742cef6dc1.png', brand: '48h Protection. Sans Aluminium. Déodorant Anti-Transpirant' },
+                            { id: 'fc3', name: 'Flux de Passion - Protection & Soin', image: 'https://kimi-web-img.moonshot.cn/img/adibabeauty.com/325be755abdd235d881e14225e5e4539fd574a85.jpg', brand: '0% Aluminium. 48h Protection. Anti-Transpirant' },
+                            { id: 'fc4', name: 'Flux de Passion - Sec & Frais', image: 'https://kimi-web-img.moonshot.cn/img/adibabeauty.com/7b082b03531f5571bf7d999de00359d7344b63ae.jpg', brand: '0% Aluminium. 48h Protection. Déodorant' },
+                            { id: 'fc5', name: "Flux Ultime - À la Pierre d\'Alun", image: 'https://kimi-web-img.moonshot.cn/img/hiind.net/9d62aa6067287f1cb740a48f20e9dae2473a4942.jpg', brand: '48h Protection. Anti-Transpirant. Roll-On' },
+                            { id: 'fc6', name: 'Flux Homme - Black & White', image: 'https://kimi-web-img.moonshot.cn/img/hiind.net/9d62aa6067287f1cb740a48f20e9dae2473a4942.jpg', brand: '0% Aluminium, Alcool. 48h Protection. Roll-On' },
+                            { id: 'fc7', name: 'Flux Ultime - Perle', image: 'https://kimi-web-img.moonshot.cn/img/hiind.net/9d62aa6067287f1cb740a48f20e9dae2473a4942.jpg', brand: '0% Aluminium, Alcool. 48h Protection. Roll-On' },
+                            { id: 'fc8', name: 'Flux Product 8', image: './images/100.jpg', brand: 'Premium Quality' },
+                            { id: 'fc9', name: 'Flux Product 9', image: './images/101.jpg', brand: 'Premium Quality' },
+                            { id: 'fc10', name: 'Flux Product 10', image: './images/102.jpg', brand: 'Premium Quality' },
+                            { id: 'fc11', name: 'Flux Product 11', image: './images/103.jpg', brand: 'Premium Quality' },
+                            { id: 'fc12', name: 'Flux Product 12', image: './images/104.jpg', brand: 'Premium Quality' },
+                            { id: 'fc13', name: 'Flux Product 13', image: './images/105.jpg', brand: 'Premium Quality' },
+                            { id: 'fc14', name: 'Flux Product 14', image: './images/106.jpg', brand: 'Premium Quality' },
+                            { id: 'fc15', name: 'Flux Product 15', image: './images/107.jpg', brand: 'Premium Quality' },
+                            { id: 'fc16', name: 'Flux Product 16', image: './images/108.jpg', brand: 'Premium Quality' },
+                            { id: 'fc17', name: 'Flux Product 17', image: './images/109.jpg', brand: 'Premium Quality' },
+                            { id: 'fc18', name: 'Flux Product 18', image: './images/110.jpg', brand: 'Premium Quality' },
+                            { id: 'fc19', name: 'Flux Product 19', image: './images/111.jpg', brand: 'Premium Quality' },
+                            { id: 'fc20', name: 'Flux Product 20', image: './images/112.jpg', brand: 'Premium Quality' },
+                            { id: 'fc21', name: 'Flux Product 21', image: './images/113.jpg', brand: 'Premium Quality' },
+                            { id: 'fc22', name: 'Flux Product 22', image: './images/114.jpg', brand: 'Premium Quality' },
+                            { id: 'fc23', name: 'Flux Product 23', image: './images/115.jpg', brand: 'Premium Quality' }
                         ]
                     },
-                    swalis: {
+                                        swalis: {
                         name: 'Swalis',
-                        image: './images/brand_cosmetic_swalis.jpg',
+                        image: './images/swalisjpg.jpg',
                         products: [
-                            { id: 'sw1', name: 'Swalis Beauty', image: './images/prod_swalis_1.jpg' },
-                            { id: 'sw2', name: 'Swalis Cream', image: './images/prod_swalis_2.jpg' },
-                            { id: 'sw3', name: 'Swalis Lotion', image: './images/prod_swalis_3.jpg' },
-                            { id: 'sw4', name: 'Swalis Serum', image: './images/prod_swalis_4.jpg' },
-                            { id: 'sw5', name: 'Swalis Mask', image: './images/prod_swalis_5.jpg' },
-                            { id: 'sw6', name: 'Swalis Toner', image: './images/prod_swalis_6.jpg' },
-                            { id: 'sw7', name: 'Swalis Cleanser', image: './images/prod_swalis_7.jpg' },
-                            { id: 'sw8', name: 'Swalis Moisturizer', image: './images/prod_swalis_8.jpg' },
-                            { id: 'sw9', name: 'Swalis Night', image: './images/prod_swalis_9.jpg' },
-                            { id: 'sw10', name: 'Swalis Premium', image: './images/prod_swalis_10.jpg' }
+                            { id: 'sw1', name: 'Swalis Product 1', image: './images/1.jpg', brand: 'Premium Quality' },
+                            { id: 'sw2', name: 'Swalis Product 2', image: './images/2.jpg', brand: 'Premium Quality' },
+                            { id: 'sw3', name: 'Swalis Product 3', image: './images/3.jpg', brand: 'Premium Quality' },
+                            { id: 'sw4', name: 'Swalis Product 4', image: './images/4.jpg', brand: 'Premium Quality' },
+                            { id: 'sw5', name: 'Swalis Product 5', image: './images/5.jpg', brand: 'Premium Quality' },
+                            { id: 'sw6', name: 'Swalis Product 6', image: './images/6.jpg', brand: 'Premium Quality' },
+                            { id: 'sw7', name: 'Swalis Product 7', image: './images/7.jpg', brand: 'Premium Quality' },
+                            { id: 'sw8', name: 'Swalis Product 8', image: './images/8.jpg', brand: 'Premium Quality' },
+                            { id: 'sw9', name: 'Swalis Product 9', image: './images/9.jpg', brand: 'Premium Quality' },
+                            { id: 'sw10', name: 'Swalis Product 10', image: './images/10.jpg', brand: 'Premium Quality' },
+                            { id: 'sw11', name: 'Swalis Product 11', image: './images/11.jpg', brand: 'Premium Quality' },
+                            { id: 'sw12', name: 'Swalis Product 12', image: './images/12.jpg', brand: 'Premium Quality' },
+                            { id: 'sw13', name: 'Swalis Product 13', image: './images/13.jpg', brand: 'Premium Quality' },
+                            { id: 'sw14', name: 'Swalis Product 14', image: './images/14.jpg', brand: 'Premium Quality' },
+                            { id: 'sw15', name: 'Swalis Product 15', image: './images/15.jpg', brand: 'Premium Quality' },
+                            { id: 'sw16', name: 'Swalis Product 16', image: './images/16.jpg', brand: 'Premium Quality' },
+                            { id: 'sw17', name: 'Swalis Product 17', image: './images/17.jpg', brand: 'Premium Quality' },
+                            { id: 'sw18', name: 'Swalis Product 18', image: './images/18.jpg', brand: 'Premium Quality' },
+                            { id: 'sw19', name: 'Swalis Product 19', image: './images/19.jpg', brand: 'Premium Quality' },
+                            { id: 'sw20', name: 'Swalis Product 20', image: './images/20.jpg', brand: 'Premium Quality' },
+                            { id: 'sw21', name: 'Swalis Product 21', image: './images/21.jpg', brand: 'Premium Quality' },
+                            { id: 'sw22', name: 'Swalis Product 22', image: './images/22.jpg', brand: 'Premium Quality' },
+                            { id: 'sw23', name: 'Swalis Product 23', image: './images/23.jpg', brand: 'Premium Quality' },
+                            { id: 'sw24', name: 'Swalis Product 24', image: './images/24.jpg', brand: 'Premium Quality' },
+                            { id: 'sw25', name: 'Swalis Product 25', image: './images/25.jpg', brand: 'Premium Quality' },
+                            { id: 'sw26', name: 'Swalis Product 26', image: './images/26.jpg', brand: 'Premium Quality' },
+                            { id: 'sw27', name: 'Swalis Product 27', image: './images/27.jpg', brand: 'Premium Quality' },
+                            { id: 'sw28', name: 'Swalis Product 28', image: './images/28.jpg', brand: 'Premium Quality' },
+                            { id: 'sw29', name: 'Swalis Product 29', image: './images/29.jpg', brand: 'Premium Quality' },
+                            { id: 'sw30', name: 'Swalis Product 30', image: './images/30.jpg', brand: 'Premium Quality' },
+                            { id: 'sw31', name: 'Swalis Product 31', image: './images/31.jpg', brand: 'Premium Quality' },
+                            { id: 'sw32', name: 'Swalis Product 32', image: './images/32.jpg', brand: 'Premium Quality' },
+                            { id: 'sw33', name: 'Swalis Product 33', image: './images/33.jpg', brand: 'Premium Quality' },
+                            { id: 'sw34', name: 'Swalis Product 34', image: './images/34.jpg', brand: 'Premium Quality' },
+                            { id: 'sw35', name: 'Swalis Product 35', image: './images/35.jpg', brand: 'Premium Quality' },
+                            { id: 'sw36', name: 'Swalis Product 36', image: './images/36.jpg', brand: 'Premium Quality' },
+                            { id: 'sw37', name: 'Swalis Product 37', image: './images/37.jpg', brand: 'Premium Quality' }
                         ]
                     },
-                    dorex: {
+                                        dorex: {
                         name: 'Dorex',
-                        image: './images/brand_cosmetic_dorex.jpg',
+                        image: './images/dorex.png',
                         products: [
-                            { id: 'dx1', name: 'Dorex Care', image: './images/prod_dorex_1.jpg' },
-                            { id: 'dx2', name: 'Dorex Cream', image: './images/prod_dorex_2.jpg' },
-                            { id: 'dx3', name: 'Dorex Lotion', image: './images/prod_dorex_3.jpg' },
-                            { id: 'dx4', name: 'Dorex Serum', image: './images/prod_dorex_4.jpg' },
-                            { id: 'dx5', name: 'Dorex Mask', image: './images/prod_dorex_5.jpg' },
-                            { id: 'dx6', name: 'Dorex Toner', image: './images/prod_dorex_6.jpg' },
-                            { id: 'dx7', name: 'Dorex Cleanser', image: './images/prod_dorex_7.jpg' },
-                            { id: 'dx8', name: 'Dorex Moisturizer', image: './images/prod_dorex_8.jpg' },
-                            { id: 'dx9', name: 'Dorex Night', image: './images/prod_dorex_9.jpg' },
-                            { id: 'dx10', name: 'Dorex Premium', image: './images/prod_dorex_10.jpg' }
+                            { id: 'dx1', name: 'Dorex Product 1', image: './images/80.jpg', brand: 'Premium Quality' },
+                            { id: 'dx2', name: 'Dorex Product 2', image: './images/81.jpg', brand: 'Premium Quality' },
+                            { id: 'dx3', name: 'Dorex Product 3', image: './images/82.jpg', brand: 'Premium Quality' },
+                            { id: 'dx4', name: 'Dorex Product 4', image: './images/83.jpg', brand: 'Premium Quality' },
+                            { id: 'dx5', name: 'Dorex Product 5', image: './images/84.jpg', brand: 'Premium Quality' },
+                            { id: 'dx6', name: 'Dorex Product 6', image: './images/85.jpg', brand: 'Premium Quality' }
                         ]
                     },
-                    goldex: {
+                                        goldex: {
                         name: 'Goldex',
-                        image: './images/brand_cosmetic_goldex.jpg',
+                        image: './images/goldexpng.png',
                         products: [
-                            { id: 'gd1', name: 'Goldex Premium', image: './images/prod_goldex_1.jpg' },
-                            { id: 'gd2', name: 'Goldex Cream', image: './images/prod_goldex_2.jpg' },
-                            { id: 'gd3', name: 'Goldex Lotion', image: './images/prod_goldex_3.jpg' },
-                            { id: 'gd4', name: 'Goldex Serum', image: './images/prod_goldex_4.jpg' },
-                            { id: 'gd5', name: 'Goldex Mask', image: './images/prod_goldex_5.jpg' },
-                            { id: 'gd6', name: 'Goldex Toner', image: './images/prod_goldex_6.jpg' },
-                            { id: 'gd7', name: 'Goldex Cleanser', image: './images/prod_goldex_7.jpg' },
-                            { id: 'gd8', name: 'Goldex Moisturizer', image: './images/prod_goldex_8.jpg' },
-                            { id: 'gd9', name: 'Goldex Night', image: './images/prod_goldex_9.jpg' },
-                            { id: 'gd10', name: 'Goldex Royal', image: './images/prod_goldex_10.jpg' }
+                            { id: 'gd1', name: 'Goldex Product 1', image: './images/86.jpg', brand: 'Premium Quality' },
+                            { id: 'gd2', name: 'Goldex Product 2', image: './images/87.jpg', brand: 'Premium Quality' },
+                            { id: 'gd3', name: 'Goldex Product 3', image: './images/88.jpg', brand: 'Premium Quality' },
+                            { id: 'gd4', name: 'Goldex Product 4', image: './images/89.jpg', brand: 'Premium Quality' },
+                            { id: 'gd5', name: 'Goldex Product 5', image: './images/90.jpg', brand: 'Premium Quality' },
+                            { id: 'gd6', name: 'Goldex Product 6', image: './images/91.jpg', brand: 'Premium Quality' },
+                            { id: 'gd7', name: 'Goldex Product 7', image: './images/92.jpg', brand: 'Premium Quality' }
                         ]
                     }
                 }
             }
         }
-    },
-    construction: {
+    },    construction: {
         id: 'construction',
         name: { en: 'Construction', fr: 'Construction' },
         image: './images/cat_construction.jpg',
         icon: 'fas fa-hard-hat',
-        description: { en: 'Building materials', fr: 'Matériaux de construction' },
+        description: { en: 'Building materials & infrastructure', fr: 'Matériaux de construction et infrastructure' },
         directAccess: true,
         subcategories: {
             cement: {
@@ -2456,16 +2665,10 @@
                 image: './images/sub_cement.jpg',
                 icon: 'fas fa-cube',
                 products: [
-                    { id: 'ce1', name: 'Portland Cement', image: './images/prod_cement_1.jpg' },
-                    { id: 'ce2', name: 'White Cement', image: './images/prod_cement_2.jpg' },
-                    { id: 'ce3', name: 'Grey Cement', image: './images/prod_cement_3.jpg' },
-                    { id: 'ce4', name: 'Rapid Cement', image: './images/prod_cement_4.jpg' },
-                    { id: 'ce5', name: 'Slow Cement', image: './images/prod_cement_5.jpg' },
-                    { id: 'ce6', name: 'Refractory Cement', image: './images/prod_cement_6.jpg' },
-                    { id: 'ce7', name: 'Sulfate Resistant', image: './images/prod_cement_7.jpg' },
-                    { id: 'ce8', name: 'Low Heat Cement', image: './images/prod_cement_8.jpg' },
-                    { id: 'ce9', name: 'High Strength', image: './images/prod_cement_9.jpg' },
-                    { id: 'ce10', name: 'Premium Cement', image: './images/prod_cement_10.jpg' }
+                    { id: 'ce1', name: 'Cement 1', image: './images/330.jpg' },
+                    { id: 'ce2', name: 'Cement 2', image: './images/331.jpg' },
+                    { id: 'ce3', name: 'Cement 3', image: './images/332.jpg' },
+                    { id: 'ce4', name: 'Cement 4', image: './images/333.jpg' }
                 ]
             },
             plaster: {
@@ -2473,16 +2676,9 @@
                 image: './images/sub_plaster.jpg',
                 icon: 'fas fa-layer-group',
                 products: [
-                    { id: 'pl1', name: 'Construction Plaster', image: './images/prod_plaster_1.jpg' },
-                    { id: 'pl2', name: 'Gypsum Plaster', image: './images/prod_plaster_2.jpg' },
-                    { id: 'pl3', name: 'Finish Plaster', image: './images/prod_plaster_3.jpg' },
-                    { id: 'pl4', name: 'Base Plaster', image: './images/prod_plaster_4.jpg' },
-                    { id: 'pl5', name: 'Decorative Plaster', image: './images/prod_plaster_5.jpg' },
-                    { id: 'pl6', name: 'Waterproof Plaster', image: './images/prod_plaster_6.jpg' },
-                    { id: 'pl7', name: 'Insulating Plaster', image: './images/prod_plaster_7.jpg' },
-                    { id: 'pl8', name: 'Lightweight Plaster', image: './images/prod_plaster_8.jpg' },
-                    { id: 'pl9', name: 'Acoustic Plaster', image: './images/prod_plaster_9.jpg' },
-                    { id: 'pl10', name: 'Premium Plaster', image: './images/prod_plaster_10.jpg' }
+                    { id: 'pl1', name: 'Plaster 1', image: './images/335.jpg' },
+                    { id: 'pl2', name: 'Plaster 2', image: './images/336.jpg' },
+                    { id: 'pl3', name: 'Plaster 3', image: './images/337.jpg' }
                 ]
             },
             paving: {
@@ -2507,16 +2703,234 @@
                 image: './images/sub_sanitary.jpg',
                 icon: 'fas fa-sink',
                 products: [
-                    { id: 'sa1', name: 'Ceramic Tiles', image: './images/prod_sanitary_1.jpg' },
-                    { id: 'sa2', name: 'Sanitary Ware', image: './images/prod_sanitary_2.jpg' },
-                    { id: 'sa3', name: 'Wall Tiles', image: './images/prod_sanitary_3.jpg' },
-                    { id: 'sa4', name: 'Floor Tiles', image: './images/prod_sanitary_4.jpg' },
-                    { id: 'sa5', name: 'Decorative Tiles', image: './images/prod_sanitary_5.jpg' },
-                    { id: 'sa6', name: 'Mosaic Tiles', image: './images/prod_sanitary_6.jpg' },
-                    { id: 'sa7', name: 'Porcelain Tiles', image: './images/prod_sanitary_7.jpg' },
-                    { id: 'sa8', name: 'Granite Tiles', image: './images/prod_sanitary_8.jpg' },
-                    { id: 'sa9', name: 'Marble Tiles', image: './images/prod_sanitary_9.jpg' },
-                    { id: 'sa10', name: 'Premium Sanitary', image: './images/prod_sanitary_10.jpg' }
+                    { id: 'sa1', name: 'Ceramic Sanitary 1', image: './images/340.jpg' }
+                ]
+            },
+            prefab: {
+                name: { en: 'Prefab Cabins', fr: 'Cabines Préfabriquées' },
+                image: './images/sub_prefab.jpg',
+                icon: 'fas fa-home',
+                products: [
+                    { id: 'sp1', name: 'SOUIPANEL Cabine Saharienne', image: './images/prod_souipanel_1.jpg' },
+                    { id: 'sp2', name: 'SOUIPANEL Standard Cabin', image: './images/prod_souipanel_2.jpg' },
+                    { id: 'sp3', name: 'SOUIPANEL Deluxe Cabin', image: './images/prod_souipanel_3.jpg' },
+                    { id: 'sp4', name: 'SOUIPANEL Office Unit', image: './images/prod_souipanel_4.jpg' },
+                    { id: 'sp5', name: 'SOUIPANEL Storage Unit', image: './images/prod_souipanel_5.jpg' },
+                    { id: 'sp6', name: 'SOUIPANEL Living Cabin', image: './images/prod_souipanel_6.jpg' },
+                    { id: 'sp7', name: 'SOUIPANEL Security Cabin', image: './images/prod_souipanel_7.jpg' },
+                    { id: 'sp8', name: 'SOUIPANEL Panneau Sandwich', image: './images/prod_souipanel_8.jpg' },
+                    { id: 'sp9', name: 'SOUIPANEL Modular Cabin', image: './images/prod_souipanel_9.jpg' },
+                    { id: 'sp10', name: 'SOUIPANEL Custom Cabin', image: './images/prod_souipanel_10.jpg' }
+                ]
+            },
+            metal_profiles: {
+                name: { en: 'Metal Profiles', fr: 'Profilés Métalliques' },
+                image: './images/sub_metal_profiles.jpg',
+                icon: 'fas fa-industry',
+                products: [
+                    { id: 'lm1', name: 'LAMDA Profilé U', image: './images/prod_lamda_1.jpg' },
+                    { id: 'lm2', name: 'LAMDA Profilé I', image: './images/prod_lamda_2.jpg' },
+                    { id: 'lm3', name: 'LAMDA Profilé L', image: './images/prod_lamda_3.jpg' },
+                    { id: 'lm4', name: 'LAMDA Profilé T', image: './images/prod_lamda_4.jpg' },
+                    { id: 'lm5', name: 'LAMDA Tube Carré', image: './images/prod_lamda_5.jpg' },
+                    { id: 'lm6', name: 'LAMDA Tube Rond', image: './images/prod_lamda_6.jpg' },
+                    { id: 'lm7', name: 'LAMDA Fer Plat', image: './images/prod_lamda_7.jpg' },
+                    { id: 'lm8', name: 'LAMDA Fer Cornière', image: './images/prod_lamda_8.jpg' },
+                    { id: 'lm9', name: 'LAMDA Poutrelle', image: './images/prod_lamda_9.jpg' },
+                    { id: 'lm10', name: 'LAMDA Profilé Spécial', image: './images/prod_lamda_10.jpg' }
+                ]
+            },
+            industrial_racking: {
+                name: { en: 'Industrial Racking', fr: 'Rayonnages Industriels' },
+                image: './images/sub_industrial_racking.jpg',
+                icon: 'fas fa-warehouse',
+                products: [
+                    { id: 'fr1', name: 'FR METAL Heavy Duty Rack', image: './images/prod_frmetal_1.jpg' },
+                    { id: 'fr2', name: 'FR METAL Light Duty Rack', image: './images/prod_frmetal_2.jpg' },
+                    { id: 'fr3', name: 'FR METAL Mezzanine', image: './images/prod_frmetal_3.jpg' },
+                    { id: 'fr4', name: 'FR METAL Pallet Rack', image: './images/prod_frmetal_4.jpg' },
+                    { id: 'fr5', name: 'FR METAL Cantilever', image: './images/prod_frmetal_5.jpg' },
+                    { id: 'fr6', name: 'FR METAL Drive-In Rack', image: './images/prod_frmetal_6.jpg' },
+                    { id: 'fr7', name: 'FR METAL Mobile Rack', image: './images/prod_frmetal_7.jpg' },
+                    { id: 'fr8', name: 'FR METAL Archive Rack', image: './images/prod_frmetal_8.jpg' },
+                    { id: 'fr9', name: 'FR METAL Tire Rack', image: './images/prod_frmetal_9.jpg' },
+                    { id: 'fr10', name: 'FR METAL Custom System', image: './images/prod_frmetal_10.jpg' }
+                ]
+            },
+            plumbing: {
+                name: { en: 'Plumbing & Taps', fr: 'Robinetterie' },
+                image: './images/sub_plumbing.jpg',
+                icon: 'fas fa-faucet',
+                products: [
+                    { id: 'kl1', name: 'KLIP Mitigeur Lavabo', image: './images/prod_klip_1.jpg' },
+                    { id: 'kl2', name: 'KLIP Mitigeur Évier', image: './images/prod_klip_2.jpg' },
+                    { id: 'kl3', name: 'KLIP Mitigeur Douche', image: './images/prod_klip_3.jpg' },
+                    { id: 'kl4', name: 'KLIP Mitigeur Bain', image: './images/prod_klip_4.jpg' },
+                    { id: 'kl5', name: 'KLIP Colonne de Douche', image: './images/prod_klip_5.jpg' },
+                    { id: 'fl1', name: 'FLASH Mitigeur Lavabo', image: './images/prod_flash_1.jpg' },
+                    { id: 'fl2', name: 'FLASH Mitigeur Évier', image: './images/prod_flash_2.jpg' },
+                    { id: 'fl3', name: 'FLASH Mitigeur Douche', image: './images/prod_flash_3.jpg' },
+                    { id: 'fl4', name: 'FLASH Robinet Mural', image: './images/prod_flash_4.jpg' },
+                    { id: 'fl5', name: 'FLASH Accessoires', image: './images/prod_flash_5.jpg' }
+                ]
+            },
+            fences: {
+                name: { en: 'Fences & Grass', fr: 'Clôtures & Gazon' },
+                image: './images/sub_fences.jpg',
+                icon: 'fas fa-border-all',
+                products: [
+                    { id: 'ls1', name: 'Lasmi Clôture Métallique 3D', image: './images/prod_lasmi_fence_1.jpg' },
+                    { id: 'ls2', name: 'Lasmi Clôture Haute Sécurité', image: './images/prod_lasmi_fence_2.jpg' },
+                    { id: 'ls3', name: 'Lasmi Clôture Jardin', image: './images/prod_lasmi_fence_3.jpg' },
+                    { id: 'ls4', name: 'Lasmi Gazon Artificiel 20mm', image: './images/prod_lasmi_grass_1.jpg' },
+                    { id: 'ls5', name: 'Lasmi Gazon Artificiel 30mm', image: './images/prod_lasmi_grass_2.jpg' },
+                    { id: 'ls6', name: 'Lasmi Gazon Artificiel 40mm', image: './images/prod_lasmi_grass_3.jpg' },
+                    { id: 'ls7', name: 'Lasmi Gazon Sport', image: './images/prod_lasmi_grass_4.jpg' },
+                    { id: 'ls8', name: 'Lasmi Gazon Premium', image: './images/prod_lasmi_grass_5.jpg' },
+                    { id: 'ls9', name: 'Lasmi Poteau Clôture', image: './images/prod_lasmi_fence_4.jpg' },
+                    { id: 'ls10', name: 'Lasmi Accessoires Clôture', image: './images/prod_lasmi_fence_5.jpg' }
+                ]
+            }
+        }
+    },
+    tableware: {
+        id: 'tableware',
+        name: { en: 'Tableware', fr: 'Vaisselle & Couverts' },
+        image: './images/cat_tableware.jpg',
+        icon: 'fas fa-utensils',
+        description: { en: 'Premium cutlery and tableware', fr: 'Couverts et vaisselle premium' },
+        subcategories: {
+            cutlery: {
+                name: { en: 'Cutlery', fr: 'Coutellerie' },
+                image: './images/sub_cutlery.jpg',
+                icon: 'fas fa-utensil-spoon',
+                brands: {
+                    bcb: {
+                        name: 'Groupe B.C.B',
+                        image: './images/brand_tableware_bcb.jpg',
+                        subBrands: {
+                            atlas: {
+                                name: 'Atlas',
+                                products: [
+                                    { id: 'at1', name: 'Atlas Dinner Set', image: './images/prod_bcb_atlas_1.jpg' },
+                                    { id: 'at2', name: 'Atlas Spoon Set', image: './images/prod_bcb_atlas_2.jpg' },
+                                    { id: 'at3', name: 'Atlas Fork Set', image: './images/prod_bcb_atlas_3.jpg' },
+                                    { id: 'at4', name: 'Atlas Knife Set', image: './images/prod_bcb_atlas_4.jpg' },
+                                    { id: 'at5', name: 'Atlas Tea Set', image: './images/prod_bcb_atlas_5.jpg' },
+                                    { id: 'at6', name: 'Atlas Serving Set', image: './images/prod_bcb_atlas_6.jpg' },
+                                    { id: 'at7', name: 'Atlas Dessert Set', image: './images/prod_bcb_atlas_7.jpg' },
+                                    { id: 'at8', name: 'Atlas Classic Line', image: './images/prod_bcb_atlas_8.jpg' },
+                                    { id: 'at9', name: 'Atlas Premium Box', image: './images/prod_bcb_atlas_9.jpg' },
+                                    { id: 'at10', name: 'Atlas Royal Collection', image: './images/prod_bcb_atlas_10.jpg' }
+                                ]
+                            },
+                            ligne: {
+                                name: 'Ligne',
+                                products: [
+                                    { id: 'li1', name: 'Ligne Dinner Set', image: './images/prod_bcb_ligne_1.jpg' },
+                                    { id: 'li2', name: 'Ligne Spoon Set', image: './images/prod_bcb_ligne_2.jpg' },
+                                    { id: 'li3', name: 'Ligne Fork Set', image: './images/prod_bcb_ligne_3.jpg' },
+                                    { id: 'li4', name: 'Ligne Knife Set', image: './images/prod_bcb_ligne_4.jpg' },
+                                    { id: 'li5', name: 'Ligne Tea Set', image: './images/prod_bcb_ligne_5.jpg' },
+                                    { id: 'li6', name: 'Ligne Serving Set', image: './images/prod_bcb_ligne_6.jpg' },
+                                    { id: 'li7', name: 'Ligne Dessert Set', image: './images/prod_bcb_ligne_7.jpg' },
+                                    { id: 'li8', name: 'Ligne Modern Line', image: './images/prod_bcb_ligne_8.jpg' },
+                                    { id: 'li9', name: 'Ligne Premium Box', image: './images/prod_bcb_ligne_9.jpg' },
+                                    { id: 'li10', name: 'Ligne Elegant Collection', image: './images/prod_bcb_ligne_10.jpg' }
+                                ]
+                            },
+                            perle: {
+                                name: 'Perlé',
+                                products: [
+                                    { id: 'pe1', name: 'Perlé Dinner Set', image: './images/prod_bcb_perle_1.jpg' },
+                                    { id: 'pe2', name: 'Perlé Spoon Set', image: './images/prod_bcb_perle_2.jpg' },
+                                    { id: 'pe3', name: 'Perlé Fork Set', image: './images/prod_bcb_perle_3.jpg' },
+                                    { id: 'pe4', name: 'Perlé Knife Set', image: './images/prod_bcb_perle_4.jpg' },
+                                    { id: 'pe5', name: 'Perlé Tea Set', image: './images/prod_bcb_perle_5.jpg' },
+                                    { id: 'pe6', name: 'Perlé Serving Set', image: './images/prod_bcb_perle_6.jpg' },
+                                    { id: 'pe7', name: 'Perlé Dessert Set', image: './images/prod_bcb_perle_7.jpg' },
+                                    { id: 'pe8', name: 'Perlé Luxury Line', image: './images/prod_bcb_perle_8.jpg' },
+                                    { id: 'pe9', name: 'Perlé Premium Box', image: './images/prod_bcb_perle_9.jpg' },
+                                    { id: 'pe10', name: 'Perlé Pearl Collection', image: './images/prod_bcb_perle_10.jpg' }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    safety: {
+        id: 'safety',
+        name: { en: 'Safety Equipment', fr: 'Équipements de Sécurité' },
+        image: './images/cat_safety.jpg',
+        icon: 'fas fa-hard-hat',
+        description: { en: 'Work safety and protection gear', fr: 'Sécurité et protection au travail' },
+        directAccess: true,
+        subcategories: {
+            helmets: {
+                name: { en: 'Safety Helmets', fr: 'Casques de Sécurité' },
+                image: './images/sub_helmets.jpg',
+                icon: 'fas fa-hard-hat',
+                products: [
+                    { id: 'sh1', name: 'Safety Helmet 1', image: './images/350.jpg' },
+                    { id: 'sh2', name: 'Safety Helmet 2', image: './images/351.jpg' },
+                    { id: 'sh3', name: 'Safety Helmet 3', image: './images/352.jpg' },
+                    { id: 'sh4', name: 'Safety Helmet 4', image: './images/353.jpg' },
+                    { id: 'sh5', name: 'Safety Helmet 5', image: './images/354.jpg' },
+                    { id: 'sh6', name: 'Safety Helmet 6', image: './images/355.jpg' }
+                ]
+            },
+            vests: {
+                name: { en: 'Safety Vests', fr: 'Gilets de Sécurité' },
+                image: './images/sub_vests.jpg',
+                icon: 'fas fa-vest',
+                products: [
+                    { id: 'sv1', name: 'Safety Vest 1', image: './images/360.jpg' },
+                    { id: 'sv2', name: 'Safety Vest 2', image: './images/361.jpg' },
+                    { id: 'sv3', name: 'Safety Vest 3', image: './images/362.jpg' },
+                    { id: 'sv4', name: 'Safety Vest 4', image: './images/363.jpg' },
+                    { id: 'sv5', name: 'Safety Vest 5', image: './images/364.jpg' }
+                ]
+            },
+            gloves: {
+                name: { en: 'Safety Gloves', fr: 'Gants de Sécurité' },
+                image: './images/sub_gloves.jpg',
+                icon: 'fas fa-hand-paper',
+                products: [
+                    { id: 'sg1', name: 'Safety Glove 1', image: './images/370.jpg' },
+                    { id: 'sg2', name: 'Safety Glove 2', image: './images/371.jpg' },
+                    { id: 'sg3', name: 'Safety Glove 3', image: './images/372.jpg' },
+                    { id: 'sg4', name: 'Safety Glove 4', image: './images/373.jpg' },
+                    { id: 'sg5', name: 'Safety Glove 5', image: './images/374.jpg' },
+                    { id: 'sg6', name: 'Safety Glove 6', image: './images/375.jpg' },
+                    { id: 'sg7', name: 'Safety Glove 7', image: './images/376.jpg' }
+                ]
+            },
+            coveralls: {
+                name: { en: 'Workwear', fr: 'Vêtements de Travail' },
+                image: './images/sub_coveralls.jpg',
+                icon: 'fas fa-user-astronaut',
+                products: [
+                    { id: 'sc1', name: 'Workwear 1', image: './images/380.jpg' },
+                    { id: 'sc2', name: 'Workwear 2', image: './images/381.jpg' },
+                    { id: 'sc3', name: 'Workwear 3', image: './images/382.jpg' },
+                    { id: 'sc4', name: 'Workwear 4', image: './images/383.jpg' },
+                    { id: 'sc5', name: 'Workwear 5', image: './images/384.jpg' },
+                    { id: 'sc6', name: 'Workwear 6', image: './images/385.jpg' }
+                ]
+            },
+            boots: {
+                name: { en: 'Safety Boots', fr: 'Chaussures de Sécurité' },
+                image: './images/sub_boots.jpg',
+                icon: 'fas fa-shoe-prints',
+                products: [
+                    { id: 'sb1', name: 'Safety Boot 1', image: './images/390.jpg' },
+                    { id: 'sb2', name: 'Safety Boot 2', image: './images/391.jpg' },
+                    { id: 'sb3', name: 'Safety Boot 3', image: './images/392.jpg' },
+                    { id: 'sb4', name: 'Safety Boot 4', image: './images/393.jpg' },
+                    { id: 'sb5', name: 'Safety Boot 5', image: './images/394.jpg' },
+                    { id: 'sb6', name: 'Safety Boot 6', image: './images/395.jpg' }
                 ]
             }
         }
@@ -2598,87 +3012,89 @@
         // 🛑 TRANSLATIONS - EN / FR ONLY
         // ==========================================
         const translations = {
-            en: {
-                company_name: "EL-AMIN EXPORT",
-                company_slogan: "ALGERIA TO THE WORLD",
-                nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact",
-                hero_badge: "100% Algerian Manufactured",
-                hero_title: "Exporting <span>Algerian Products</span> to the World",
-                hero_subtitle: "From the strategic port of Oran, we bridge Africa and the Mediterranean with premium Algerian products. Quality, reliability, and excellence in every shipment.",
-                hero_cta_products: "Our Products", hero_cta_contact: "Get in Touch",
-                stat_countries: "Countries", stat_clients: "Happy Clients", stat_quality: "Algerian Made",
-                about_label: "About Us", about_title: "The Gateway of the Mediterranean",
-                about_subtitle: "Strategically located in Oran, Algeria's vibrant port city.",
-                about_heading: "Your Trusted Export Partner",
-                about_p1: "EURL EL-AMIN EXPORT COMPANY is a young and dynamic enterprise based in Oran, Point du Jour, Algeria. We specialize in exporting 100% Algerian-manufactured products across the Mediterranean and beyond.",
-                about_p2: "Our strategic location at the Port of Oran allows us to efficiently serve markets in Africa, Europe, and the Middle East. We are committed to showcasing the best of Algerian industry.",
-                about_p3: "As a new company, we prioritize honesty, transparency, and building long-term relationships. We may be young, but our commitment to excellence is absolute.",
-                feat_quality: "Premium Quality", feat_quality_desc: "Every product meets international standards.",
-                feat_logistics: "Strategic Logistics", feat_logistics_desc: "Direct access to Mediterranean shipping routes.",
-                feat_trust: "Built on Trust", feat_trust_desc: "Honest partnerships from day one.",
-                feat_global: "Global Reach", feat_global_desc: "Expanding to 15+ countries steadily.",
-                trust_label: "Our Impact", trust_title: "Selected Algerian Excellence",
-                metric_countries: "Countries Served", metric_clients: "Satisfied Clients",
-                metric_quality: "Algerian Products", metric_support: "Reactive Support",
-                products_label: "Our Catalog", products_title: "Discover Algerian Excellence",
-                products_subtitle: "Click on a category to explore our products.",
-                contact_label: "Contact", contact_title: "Let's Build Together",
-                contact_subtitle: "Ready to import the best of Algeria? Reach out today.",
-                contact_heading: "Get in Touch",
-                contact_desc: "Whether you're a distributor, retailer, or importer, we're here to discuss how we can supply your market with premium Algerian products.",
-                contact_address_label: "Address", contact_hours_label: "Business Hours",
-                contact_hours: "Sun - Thu: 9:00 AM - 5:00 PM",
-                form_name: "Full Name", form_email: "Email Address", form_company: "Company Name",
-                form_country: "Your Country", form_message: "Message", form_submit: "Send Message",
-                footer_desc: "Your gateway to premium Algerian products. Based in Oran, serving the Mediterranean and beyond with excellence and integrity.",
-                footer_links: "Quick Links", footer_categories: "Categories", footer_legal: "Legal",
-                footer_privacy: "Privacy Policy", footer_terms: "Terms of Service",
-                footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. All rights reserved. Made with pride in Oran, Algeria.",
-                cat_food: "Food & Beverages", cat_detergents: "Detergents",
-                cat_cosmetics: "Cosmetics", cat_construction: "Construction"
-            },
-            fr: {
-                company_name: "EL-AMIN EXPORT",
-                company_slogan: "L'ALGÉRIE VERS LE MONDE",
-                nav_home: "Accueil", nav_products: "Produits", nav_about: "À Propos", nav_contact: "Contact",
-                hero_badge: "100% Fabriqué en Algérie",
-                hero_title: "Exporter des <span>Produits Algériens</span> vers le Monde",
-                hero_subtitle: "Depuis le port stratégique d'Oran, nous relions l'Afrique et la Méditerranée avec des produits algériens premium. Qualité, fiabilité et excellence dans chaque expédition.",
-                hero_cta_products: "Nos Produits", hero_cta_contact: "Nous Contacter",
-                stat_countries: "Pays", stat_clients: "Clients Satisfaits", stat_quality: "Made in Algeria",
-                about_label: "À Propos", about_title: "La Porte de la Méditerranée",
-                about_subtitle: "Stratégiquement située à Oran, la ville portuaire dynamique d'Algérie.",
-                about_heading: "Votre Partenaire Export de Confiance",
-                about_p1: "EURL EL-AMIN EXPORT COMPANY est une entreprise jeune et dynamique basée à Oran, Point du Jour, Algérie. Nous sommes spécialisés dans l'exportation de produits 100% fabriqués en Algérie à travers la Méditerranée et au-delà.",
-                about_p2: "Notre emplacement stratégique au Port d'Oran nous permet de desservir efficacement les marchés d'Afrique, d'Europe et du Moyen-Orient. Nous nous engageons à mettre en valeur le meilleur de l'industrie algérienne.",
-                about_p3: "En tant que nouvelle entreprise, nous privilégions l'honnêteté, la transparence et la construction de relations à long terme. Nous sommes jeunes, mais notre engagement envers l'excellence est absolu.",
-                feat_quality: "Qualité Premium", feat_quality_desc: "Chaque produit répond aux normes internationales.",
-                feat_logistics: "Logistique Stratégique", feat_logistics_desc: "Accès direct aux routes maritimes méditerranéennes.",
-                feat_trust: "Basé sur la Confiance", feat_trust_desc: "Des partenariats honnêtes dès le premier jour.",
-                feat_global: "Rayonement Global", feat_global_desc: "Expansion vers plus de 15 pays.",
-                trust_label: "Notre Impact", trust_title: "Excellence Algérienne Sélectionnée",
-                metric_countries: "Pays Desservis", metric_clients: "Clients Satisfaits",
-                metric_quality: "Produits Algériens", metric_support: "Support Réactif",
-                products_label: "Notre Catalogue", products_title: "Découvrez l'Excellence Algérienne",
-                products_subtitle: "Cliquez sur une catégorie pour explorer nos produits.",
-                contact_label: "Contact", contact_title: "Construisons Ensemble",
-                contact_subtitle: "Prêt à importer le meilleur de l'Algérie ? Contactez-nous dès aujourd'hui.",
-                contact_heading: "Contactez-Nous",
-                contact_desc: "Que vous soyez distributeur, détaillant ou importateur, nous sommes là pour discuter de la façon dont nous pouvons approvisionner votre marché avec des produits algériens premium.",
-                contact_address_label: "Adresse", contact_hours_label: "Heures d'Ouverture",
-                contact_hours: "Dim - Jeu: 9h00 - 17h00",
-                form_name: "Nom Complet", form_email: "Adresse Email", form_company: "Nom de l'Entreprise",
-                form_country: "Votre Pays", form_message: "Message", form_submit: "Envoyer le Message",
-                footer_desc: "Votre passerelle vers les produits algériens premium. Basée à Oran, desservant la Méditerranée et au-delà avec excellence et intégrité.",
-                footer_links: "Liens Rapides", footer_categories: "Catégories", footer_legal: "Légal",
-                footer_privacy: "Politique de Confidentialité", footer_terms: "Conditions d'Utilisation",
-                footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. Tous droits réservés. Fierté d'Oran, Algérie.",
-                cat_food: "Alimentation & Boissons", cat_detergents: "Détergents",
-                cat_cosmetics: "Cosmétiques", cat_construction: "Construction"
-            }
-        };
+    en: {
+        company_name: "EL-AMIN EXPORT",
+        company_slogan: "ALGERIA TO THE WORLD",
+        nav_home: "Home", nav_products: "Products", nav_about: "About", nav_contact: "Contact",
+        hero_badge: "100% Algerian Manufactured",
+        hero_title: "Exporting <span>Algerian Products</span> to the World",
+        hero_subtitle: "From the strategic port of Oran, we bridge Africa and the Mediterranean with premium Algerian products. Quality, reliability, and excellence in every shipment.",
+        hero_cta_products: "Our Products", hero_cta_contact: "Get in Touch",
+        stat_countries: "Countries", stat_clients: "Happy Clients", stat_quality: "Algerian Made",
+        about_label: "About Us", about_title: "The Gateway of the Mediterranean",
+        about_subtitle: "Strategically located in Oran, Algeria's vibrant port city.",
+        about_heading: "Your Trusted Export Partner",
+        about_p1: "EURL EL-AMIN EXPORT COMPANY is a young and dynamic enterprise based in Oran, Point du Jour, Algeria. We specialize in exporting 100% Algerian-manufactured products across the Mediterranean and beyond.",
+        about_p2: "Our strategic location at the Port of Oran allows us to efficiently serve markets in Africa, Europe, and the Middle East. We are committed to showcasing the best of Algerian industry.",
+        about_p3: "As a new company, we prioritize honesty, transparency, and building long-term relationships. We may be young, but our commitment to excellence is absolute.",
+        feat_quality: "Premium Quality", feat_quality_desc: "Every product meets international standards.",
+        feat_logistics: "Strategic Logistics", feat_logistics_desc: "Direct access to Mediterranean shipping routes.",
+        feat_trust: "Built on Trust", feat_trust_desc: "Honest partnerships from day one.",
+        feat_global: "Global Reach", feat_global_desc: "Expanding to 15+ countries steadily.",
+        trust_label: "Our Impact", trust_title: "Selected Algerian Excellence",
+        metric_countries: "Countries Served", metric_clients: "Satisfied Clients",
+        metric_quality: "Algerian Products", metric_support: "Reactive Support",
+        products_label: "Our Catalog", products_title: "Discover Algerian Excellence",
+        products_subtitle: "Click on a category to explore our products.",
+        contact_label: "Contact", contact_title: "Let's Build Together",
+        contact_subtitle: "Ready to import the best of Algeria? Reach out today.",
+        contact_heading: "Get in Touch",
+        contact_desc: "Whether you're a distributor, retailer, or importer, we're here to discuss how we can supply your market with premium Algerian products.",
+        contact_address_label: "Address", contact_hours_label: "Business Hours",
+        contact_hours: "Sun - Thu: 9:00 AM - 5:00 PM",
+        form_name: "Full Name", form_email: "Email Address", form_company: "Company Name",
+        form_country: "Your Country", form_message: "Message", form_submit: "Send Message",
+        footer_desc: "Your gateway to premium Algerian products. Based in Oran, serving the Mediterranean and beyond with excellence and integrity.",
+        footer_links: "Quick Links", footer_categories: "Categories", footer_legal: "Legal",
+        footer_privacy: "Privacy Policy", footer_terms: "Terms of Service",
+        footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. All rights reserved. Made with pride in Oran, Algeria.",
+        cat_food: "Food & Beverages", cat_detergents: "Detergents",
+        cat_cosmetics: "Cosmetics", cat_construction: "Construction",
+        cat_tableware: "Tableware", cat_safety: "Safety Equipment"
+    },
+    fr: {
+        company_name: "EL-AMIN EXPORT",
+        company_slogan: "L'ALGÉRIE VERS LE MONDE",
+        nav_home: "Accueil", nav_products: "Produits", nav_about: "À Propos", nav_contact: "Contact",
+        hero_badge: "100% Fabriqué en Algérie",
+        hero_title: "Exporter des <span>Produits Algériens</span> vers le Monde",
+        hero_subtitle: "Depuis le port stratégique d'Oran, nous relions l'Afrique et la Méditerranée avec des produits algériens premium. Qualité, fiabilité et excellence dans chaque expédition.",
+        hero_cta_products: "Nos Produits", hero_cta_contact: "Nous Contacter",
+        stat_countries: "Pays", stat_clients: "Clients Satisfaits", stat_quality: "Made in Algeria",
+        about_label: "À Propos", about_title: "La Porte de la Méditerranée",
+        about_subtitle: "Stratégiquement située à Oran, la ville portuaire dynamique d'Algérie.",
+        about_heading: "Votre Partenaire Export de Confiance",
+        about_p1: "EURL EL-AMIN EXPORT COMPANY est une entreprise jeune et dynamique basée à Oran, Point du Jour, Algérie. Nous sommes spécialisés dans l'exportation de produits 100% fabriqués en Algérie à travers la Méditerranée et au-delà.",
+        about_p2: "Notre emplacement stratégique au Port d'Oran nous permet de desservir efficacement les marchés d'Afrique, d'Europe et du Moyen-Orient. Nous nous engageons à mettre en valeur le meilleur de l'industrie algérienne.",
+        about_p3: "En tant que nouvelle entreprise, nous privilégions l'honnêteté, la transparence et la construction de relations à long terme. Nous sommes jeunes, mais notre engagement envers l'excellence est absolu.",
+        feat_quality: "Qualité Premium", feat_quality_desc: "Chaque produit répond aux normes internationales.",
+        feat_logistics: "Logistique Stratégique", feat_logistics_desc: "Accès direct aux routes maritimes méditerranéennes.",
+        feat_trust: "Basé sur la Confiance", feat_trust_desc: "Des partenariats honnêtes dès le premier jour.",
+        feat_global: "Rayonement Global", feat_global_desc: "Expansion vers plus de 15 pays.",
+        trust_label: "Notre Impact", trust_title: "Excellence Algérienne Sélectionnée",
+        metric_countries: "Pays Desservis", metric_clients: "Clients Satisfaits",
+        metric_quality: "Produits Algériens", metric_support: "Support Réactif",
+        products_label: "Notre Catalogue", products_title: "Découvrez l'Excellence Algérienne",
+        products_subtitle: "Cliquez sur une catégorie pour explorer nos produits.",
+        contact_label: "Contact", contact_title: "Construisons Ensemble",
+        contact_subtitle: "Prêt à importer le meilleur de l'Algérie ? Contactez-nous dès aujourd'hui.",
+        contact_heading: "Contactez-Nous",
+        contact_desc: "Que vous soyez distributeur, détaillant ou importateur, nous sommes là pour discuter de la façon dont nous pouvons approvisionner votre marché avec des produits algériens premium.",
+        contact_address_label: "Adresse", contact_hours_label: "Heures d'Ouverture",
+        contact_hours: "Dim - Jeu: 9h00 - 17h00",
+        form_name: "Nom Complet", form_email: "Adresse Email", form_company: "Nom de l'Entreprise",
+        form_country: "Votre Pays", form_message: "Message", form_submit: "Envoyer le Message",
+        footer_desc: "Votre passerelle vers les produits algériens premium. Basée à Oran, desservant la Méditerranée et au-delà avec excellence et intégrité.",
+        footer_links: "Liens Rapides", footer_categories: "Catégories", footer_legal: "Légal",
+        footer_privacy: "Politique de Confidentialité", footer_terms: "Conditions d'Utilisation",
+        footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. Tous droits réservés. Fierté d'Oran, Algérie.",
+        cat_food: "Alimentation & Boissons", cat_detergents: "Détergents",
+        cat_cosmetics: "Cosmétiques", cat_construction: "Construction",
+        cat_tableware: "Vaisselle & Couverts", cat_safety: "Équipements de Sécurité"
+    }
+};
 
-        let currentLang = 'en';
+let currentLang = 'en';
         let cart = [];
         let modalHistory = [];
 
@@ -2819,9 +3235,11 @@
                 const productCount = brand.products ? brand.products.length : 0;
                 content += `
                     <div class="brand-card" onclick="openBrandModal('${categoryId}', '${subcategoryId}', '${brandId}')">
-                        <img src="./images/brand-icon.png" alt="Brand" class="brand-icon-generic" loading="lazy">
-                        <div class="brand-name">${brand.name}</div>
-                        <div class="brand-count">${productCount} ${currentLang === 'fr' ? 'produits' : 'products'}</div>
+                        <img src="${brand.image}" alt="${brand.name}" class="brand-image" loading="lazy">
+                        <div class="brand-info">
+                            <div class="brand-name">${brand.name}</div>
+                            <div class="brand-count">${productCount} ${currentLang === 'fr' ? 'produits' : 'products'}</div>
+                        </div>
                     </div>
                 `;
             });
@@ -2871,7 +3289,10 @@
             brand.products.forEach(product => {
                 content += `
                     <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                        <div class="product-image-wrapper">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-image-fallback" style="display:none;"><i class="fas fa-box-open"></i></div>
+                        </div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-brand">${brand.name}</div>
@@ -2906,7 +3327,10 @@
             subBrand.products.forEach(product => {
                 content += `
                     <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                        <div class="product-image-wrapper">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-image-fallback" style="display:none;"><i class="fas fa-box-open"></i></div>
+                        </div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-brand">${brand.name} - ${subBrand.name}</div>
@@ -2939,7 +3363,10 @@
             subcategory.products.forEach(product => {
                 content += `
                     <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy">
+                        <div class="product-image-wrapper">
+                            <img src="${product.image}" alt="${product.name}" class="product-image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-image-fallback" style="display:none;"><i class="fas fa-box-open"></i></div>
+                        </div>
                         <div class="product-info">
                             <div class="product-name">${product.name}</div>
                             <div class="product-brand">${getText(subcategory.name)}</div>
