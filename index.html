@@ -2015,7 +2015,7 @@
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_detergents">Detergents</a></li>
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_cosmetics">Cosmetics</a></li>
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_construction">Construction</a></li>
-                    <li><a onclick="scrollToSection('products')" data-i18n="cat_tableware">Tableware</a></li>
+                    <li><a onclick="scrollToSection('products')" data-i18n="cat_aquaomni">AquaOmni</a></li>
                     <li><a onclick="scrollToSection('products')" data-i18n="cat_safety">Safety Equipment</a></li>
                 </ul>
             </div>
@@ -2849,70 +2849,45 @@ const productData = {
             }
         }
     },
-    tableware: {
-        id: 'tableware',
-        name: { en: 'Tableware', fr: 'Vaisselle & Couverts' },
-        image: './images/cat_tableware.jpg',
-        icon: 'fas fa-utensils',
-        description: { en: 'Premium cutlery and tableware', fr: 'Couverts et vaisselle premium' },
+    aquaomni: {
+        id: 'aquaomni',
+        name: { en: 'AquaOmni', fr: 'AquaOmni' },
+        image: './images/cat_AquaOmni.jpg',
+        icon: 'fas fa-faucet',
+        description: { en: 'Premium plumbing fixtures and faucets', fr: 'Robinets et sanitaires premium' },
+        directAccess: true,
         subcategories: {
-            cutlery: {
-                name: { en: 'Cutlery', fr: 'Coutellerie' },
-                image: './images/sub_cutlery.jpg',
-                icon: 'fas fa-utensil-spoon',
-                brands: {
-                    bcb: {
-                        name: 'Groupe B.C.B',
-                        image: './images/brand_tableware_bcb.jpg',
-                        subBrands: {
-                            atlas: {
-                                name: 'Atlas',
-                                products: [
-                                    { id: 'at1', name: 'Atlas Dinner Set', image: './images/prod_bcb_atlas_1.jpg' },
-                                    { id: 'at2', name: 'Atlas Spoon Set', image: './images/prod_bcb_atlas_2.jpg' },
-                                    { id: 'at3', name: 'Atlas Fork Set', image: './images/prod_bcb_atlas_3.jpg' },
-                                    { id: 'at4', name: 'Atlas Knife Set', image: './images/prod_bcb_atlas_4.jpg' },
-                                    { id: 'at5', name: 'Atlas Tea Set', image: './images/prod_bcb_atlas_5.jpg' },
-                                    { id: 'at6', name: 'Atlas Serving Set', image: './images/prod_bcb_atlas_6.jpg' },
-                                    { id: 'at7', name: 'Atlas Dessert Set', image: './images/prod_bcb_atlas_7.jpg' },
-                                    { id: 'at8', name: 'Atlas Classic Line', image: './images/prod_bcb_atlas_8.jpg' },
-                                    { id: 'at9', name: 'Atlas Premium Box', image: './images/prod_bcb_atlas_9.jpg' },
-                                    { id: 'at10', name: 'Atlas Royal Collection', image: './images/prod_bcb_atlas_10.jpg' }
-                                ]
-                            },
-                            ligne: {
-                                name: 'Ligne',
-                                products: [
-                                    { id: 'li1', name: 'Ligne Dinner Set', image: './images/prod_bcb_ligne_1.jpg' },
-                                    { id: 'li2', name: 'Ligne Spoon Set', image: './images/prod_bcb_ligne_2.jpg' },
-                                    { id: 'li3', name: 'Ligne Fork Set', image: './images/prod_bcb_ligne_3.jpg' },
-                                    { id: 'li4', name: 'Ligne Knife Set', image: './images/prod_bcb_ligne_4.jpg' },
-                                    { id: 'li5', name: 'Ligne Tea Set', image: './images/prod_bcb_ligne_5.jpg' },
-                                    { id: 'li6', name: 'Ligne Serving Set', image: './images/prod_bcb_ligne_6.jpg' },
-                                    { id: 'li7', name: 'Ligne Dessert Set', image: './images/prod_bcb_ligne_7.jpg' },
-                                    { id: 'li8', name: 'Ligne Modern Line', image: './images/prod_bcb_ligne_8.jpg' },
-                                    { id: 'li9', name: 'Ligne Premium Box', image: './images/prod_bcb_ligne_9.jpg' },
-                                    { id: 'li10', name: 'Ligne Elegant Collection', image: './images/prod_bcb_ligne_10.jpg' }
-                                ]
-                            },
-                            perle: {
-                                name: 'Perlé',
-                                products: [
-                                    { id: 'pe1', name: 'Perlé Dinner Set', image: './images/prod_bcb_perle_1.jpg' },
-                                    { id: 'pe2', name: 'Perlé Spoon Set', image: './images/prod_bcb_perle_2.jpg' },
-                                    { id: 'pe3', name: 'Perlé Fork Set', image: './images/prod_bcb_perle_3.jpg' },
-                                    { id: 'pe4', name: 'Perlé Knife Set', image: './images/prod_bcb_perle_4.jpg' },
-                                    { id: 'pe5', name: 'Perlé Tea Set', image: './images/prod_bcb_perle_5.jpg' },
-                                    { id: 'pe6', name: 'Perlé Serving Set', image: './images/prod_bcb_perle_6.jpg' },
-                                    { id: 'pe7', name: 'Perlé Dessert Set', image: './images/prod_bcb_perle_7.jpg' },
-                                    { id: 'pe8', name: 'Perlé Luxury Line', image: './images/prod_bcb_perle_8.jpg' },
-                                    { id: 'pe9', name: 'Perlé Premium Box', image: './images/prod_bcb_perle_9.jpg' },
-                                    { id: 'pe10', name: 'Perlé Pearl Collection', image: './images/prod_bcb_perle_10.jpg' }
-                                ]
-                            }
-                        }
-                    }
-                }
+            gallery: {
+                name: { en: 'Gallery', fr: 'Galerie' },
+                image: './images/cat_AquaOmni.jpg',
+                icon: 'fas fa-images',
+                products: [
+                    { id: 'ao1', name: 'AquaOmni Product 1', image: './images/9000.jpg' },
+                    { id: 'ao2', name: 'AquaOmni Product 2', image: './images/9001.jpg' },
+                    { id: 'ao3', name: 'AquaOmni Product 3', image: './images/9002.jpg' },
+                    { id: 'ao4', name: 'AquaOmni Product 4', image: './images/9003.jpg' },
+                    { id: 'ao5', name: 'AquaOmni Product 5', image: './images/9004.jpg' },
+                    { id: 'ao6', name: 'AquaOmni Product 6', image: './images/9005.jpg' },
+                    { id: 'ao7', name: 'AquaOmni Product 7', image: './images/9006.jpg' },
+                    { id: 'ao8', name: 'AquaOmni Product 8', image: './images/9007.jpg' },
+                    { id: 'ao9', name: 'AquaOmni Product 9', image: './images/9008.jpg' },
+                    { id: 'ao10', name: 'AquaOmni Product 10', image: './images/9009.jpg' },
+                    { id: 'ao11', name: 'AquaOmni Product 11', image: './images/9010.jpg' },
+                    { id: 'ao12', name: 'AquaOmni Product 12', image: './images/9011.jpg' },
+                    { id: 'ao13', name: 'AquaOmni Product 13', image: './images/9012.jpg' },
+                    { id: 'ao14', name: 'AquaOmni Product 14', image: './images/9013.jpg' },
+                    { id: 'ao15', name: 'AquaOmni Product 15', image: './images/9014.jpg' },
+                    { id: 'ao16', name: 'AquaOmni Product 16', image: './images/9015.jpg' },
+                    { id: 'ao17', name: 'AquaOmni Product 17', image: './images/9016.jpg' },
+                    { id: 'ao18', name: 'AquaOmni Product 18', image: './images/9017.jpg' },
+                    { id: 'ao19', name: 'AquaOmni Product 19', image: './images/9018.jpg' },
+                    { id: 'ao20', name: 'AquaOmni Product 20', image: './images/9019.jpg' },
+                    { id: 'ao21', name: 'AquaOmni Product 21', image: './images/9020.jpg' },
+                    { id: 'ao22', name: 'AquaOmni Product 22', image: './images/9021.jpg' },
+                    { id: 'ao23', name: 'AquaOmni Product 23', image: './images/9022.jpg' },
+                    { id: 'ao24', name: 'AquaOmni Product 24', image: './images/9023.jpg' },
+                    { id: 'ao25', name: 'AquaOmni Product 25', image: './images/9024.jpg' }
+                ]
             }
         }
     },
@@ -3112,7 +3087,7 @@ const translations = {
         footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. All rights reserved. Made with pride in Oran, Algeria.",
         cat_food: "Food & Beverages", cat_detergents: "Detergents",
         cat_cosmetics: "Cosmetics", cat_construction: "Construction",
-        cat_tableware: "Tableware", cat_safety: "Safety Equipment"
+        cat_aquaomni: "AquaOmni", cat_safety: "Safety Equipment"
     },
     fr: {
         company_name: "EL-AMIN EXPORT",
@@ -3152,7 +3127,7 @@ const translations = {
         footer_copyright: "© 2026 EURL EL-AMIN EXPORT COMPANY. Tous droits réservés. Fierté d'Oran, Algérie.",
         cat_food: "Alimentation & Boissons", cat_detergents: "Détergents",
         cat_cosmetics: "Cosmétiques", cat_construction: "Construction",
-        cat_tableware: "Vaisselle & Couverts", cat_safety: "Équipements de Sécurité"
+        cat_aquaomni: "AquaOmni", cat_safety: "Équipements de Sécurité"
     }
 }
 
